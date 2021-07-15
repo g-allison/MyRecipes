@@ -84,3 +84,36 @@
      * View current conversations
      * Compose new message
          * Start new group
+
+## 4. Schema
+### Models
+
+Post
+| Propery        | Type           | Description  |
+| ------------- |-------------| -----|
+| objectID      | String | unique id for the user post |
+| author      | Pointer to user |  Recipe author |
+| image | File |   Image that author posts |
+|recipeName | String | Recipe name by author |
+|steps | Object (ArrayList<String>) | Recipe steps by author |
+|ingredients | Object (ArrayList<String>) | Recipe ingredients by author |
+potential features: prepare time, cook time, rating, like count, commentsArray
+
+ ### Networking
+List of network requests by screen
+ * Home Feed Screen
+   * (Read/GET) Query all posts where user is author
+   * (Create/POST) Create a new like on a post
+   * (Delete) Delete existing like
+   * (Create/POST) Create a new comment on a post
+   * (Delete) Delete existing comment
+ * Create Post Screen
+   * (Create/POST) Create a new post object
+   * (Read/GET) Query recipes from API host
+ * Profile Screen
+   * (Read/GET) Query logged in user object
+   * (Update/PUT) Update user profile image
+   * (Read/GET) Query all recipes from database
+
+## 5. Wireframes
+ <img src='wireframes.jpg' title='Wireframes' width='' alt='Wireframes' />
