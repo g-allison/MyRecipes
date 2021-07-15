@@ -1,5 +1,6 @@
 package com.codepath.myrecipes.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +107,10 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
     }
 
     @Override
-    public void onPostClick(ParseUser user) {
-        ((MainActivity)getActivity()).profileTransition(user);
+    public void onPostClick(int position) {
+//        ((MainActivity)getActivity()).profileTransition(user);
+        Intent intent = new Intent(getContext(), PostActivity.class);
+        intent.putExtra("post", Parcels.wrap(mAllPosts.get(position)));
+        startActivity(intent);
     }
 }

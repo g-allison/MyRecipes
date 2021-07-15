@@ -71,7 +71,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             mRlContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onPostListener.onPostClick(post.getUser());
+                    onPostListener.onPostClick(getAdapterPosition());
                 }
             });
 
@@ -82,6 +82,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     }
 
     public interface OnPostListener{
-        void onPostClick(ParseUser user);
+        void onPostClick(int position);
     }
 }

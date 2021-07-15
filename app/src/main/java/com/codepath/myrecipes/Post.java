@@ -13,7 +13,8 @@ public class Post extends ParseObject {
     public static final String KEY_CREATED_KEY = "createdAt";
     public static final String KEY_NAME = "name";
     public static final String KEY_PROFILE = "profilePicture";
-
+    public static final String KEY_STEPS = "steps";
+    public static final String KEY_INGREDIENTS = "ingredients";
 
     public String getName() {
         return getUser().getString(KEY_NAME);
@@ -53,6 +54,22 @@ public class Post extends ParseObject {
 
     public void setUser(ParseUser parseUser) {
         put(KEY_USER, parseUser);
+    }
+
+    public Object getKeySteps() {
+        return get(KEY_STEPS);
+    }
+
+    public void setKeySteps(Object obj) {
+        put(KEY_STEPS, obj);
+    }
+
+    public Object getKeyIngredients() {
+        return get(KEY_INGREDIENTS);
+    }
+
+    public void setKeyIngredients(Object obj) {
+        put(KEY_INGREDIENTS, obj);
     }
 
 }

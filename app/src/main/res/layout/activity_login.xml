@@ -24,7 +24,7 @@
         android:fontFamily="sans-serif-smallcaps"
         android:text="MY RECIPES"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/green_500"
+        android:textColor="@color/purple_500"
         android:textSize="34sp"
         android:textStyle="bold" />
 
@@ -87,7 +87,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/green_500"
+        android:backgroundTint="@color/purple_500"
         android:text="sign up"
         app:cornerRadius="30dp" />
 

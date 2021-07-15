@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.codepath.myrecipes.ui.home.HomeFragment;
 import com.codepath.myrecipes.ui.post.DashboardFragment;
@@ -30,10 +31,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
 
-        mBottomNavigationView = findViewById(R.id.bottomNavigation);
+        View view = binding.getRoot();
+        setContentView(view);
 
+        mBottomNavigationView = binding.bottomNavigation;
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -79,9 +82,5 @@ public class MainActivity extends AppCompatActivity {
     public void postTransition() {
         mFragmentManager.beginTransaction().replace(R.id.flContainer, new HomeFragment()).commit();
         mBottomNavigationView.setSelectedItemId(R.id.navigation_home);
-    }
-
-    public void profileTransition(ParseUser parseUser) {
-        mFragmentManager.beginTransaction().replace(R.id.flContainer, new ProfileFragment()).commit();
     }
 }
