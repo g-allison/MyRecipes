@@ -5,10 +5,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.codepath.myrecipes.ui.home.HomeFragment;
+import com.codepath.myrecipes.ui.post.DashboardFragment;
+import com.codepath.myrecipes.ui.profile.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,26 +23,39 @@ import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-private ActivityMainBinding binding;
+    final FragmentManager mFragmentManager = getSupportFragmentManager();
+    private BottomNavigationView mBottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-     binding = ActivityMainBinding.inflate(getLayoutInflater());
-     setContentView(binding.getRoot());
+        mBottomNavigationView = findViewById(R.id.bottomNavigation);
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home,
-                R.id.navigation_dashboard,
-                R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Fragment fragment;
+                switch (menuItem.getItemId()) {
+                    case R.id.navigation_home:
+                        fragment = new HomeFragment();
+                        break;
+                    case R.id.navigation_dashboard:
+                        fragment = new DashboardFragment();
+                        break;
+                    case R.id.navigation_profile:
+                    default:
+                        fragment = new ProfileFragment();
+                        break;
+                }
+                mFragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                return true;
+            }
+        });
+        // Set default selection
+        mBottomNavigationView.setSelectedItemId(R.id.navigation_home);
     }
 
     @Override
@@ -56,5 +74,14 @@ private ActivityMainBinding binding;
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void postTransition() {
+        mFragmentManager.beginTransaction().replace(R.id.flContainer, new HomeFragment()).commit();
+        mBottomNavigationView.setSelectedItemId(R.id.navigation_home);
+    }
+
+    public void profileTransition(ParseUser parseUser) {
+        mFragmentManager.beginTransaction().replace(R.id.flContainer, new ProfileFragment()).commit();
     }
 }
