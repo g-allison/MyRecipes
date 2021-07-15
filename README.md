@@ -60,11 +60,10 @@
 **Tab Navigation** (Tab to Screen)
 
  * Home Feed
-     * Search User
+     * Search feed for ingredients
      * Post a Photo
- * View pantry
+ * Add new recipe
  * Weekly menu
- * Messaging
 
 **Flow Navigation** (Screen to Screen)
 
@@ -80,10 +79,9 @@
  * Pantry
      * Add new item
      * Suggest a recipe based on current items
- * Messaging
-     * View current conversations
-     * Compose new message
-         * Start new group
+ * Feed
+     * View recipes posted recently
+     * View recipe details
 
 ## 4. Schema
 ### Models
@@ -97,7 +95,8 @@ Post
 |recipeName | String | Recipe name by author |
 |steps | Object (ArrayList<String>) | Recipe steps by author |
 |ingredients | Object (ArrayList<String>) | Recipe ingredients by author |
-potential features: prepare time, cook time, rating, like count, commentsArray
+
+ potential features: prepare time, cook time, rating, like count, commentsArray
 
  ### Networking
 List of network requests by screen
