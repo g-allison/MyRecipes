@@ -5,27 +5,27 @@
 
 **Required Must-have Stories**
 
- * User can create an account
- * User can log in
- * User can enter own recipes
- * User can pick recipes from the app using recipe API
- * User is able to generate a weekly menu
- * User is able to generate a weekly shopping list
- * Have a main feed where people's recipes are shared in chronological order
-     * filter based on ingredients
- * People can follow others (auto approve)
+ - [X] User can create an account
+ - [X] User can log in
+ - [X] User can enter own recipes
+ - [ ] User can pick recipes from the app using recipe API
+ - [ ] User is able to generate a weekly menu
+ - [ ] User is able to generate a weekly shopping list
+ - [X] Have a main feed where people's recipes are shared in chronological order
+     - [ ] filter based on ingredients
+ - [ ] People can follow others (auto approve)
 
 **Optional Nice-to-have Stories**
 
- * App tracks price of ingrediants and user is able to designate a max budget
- * User can scan a preexisting recipe and have the app auto fill into a recipe card
- * Approve follow requests 
- * Recipes are shareable over messenging
- * Track items in a user's pantry
-     * User can add/delete items from pantry
-     * Remind users when expiration date is approaching
-     * Be able to suggest a recipe based off of what a user has in their pantry already
-  * User can scan barcodes of items to upload to pantry
+ - [ ] App tracks price of ingredients and user is able to designate a max budget
+ - [ ] User can scan a preexisting recipe and have the app auto fill into a recipe card
+ - [ ] Approve follow requests 
+ - [ ] Recipes are shareable over messenging
+ - [ ] Track items in a user's pantry
+     - [ ] User can add/delete items from pantry
+     - [ ] Remind users when expiration date is approaching
+     - [ ] Be able to suggest a recipe based off of what a user has in their pantry already
+ - [ ] User can scan barcodes of items to upload to pantry
 
 ## 2. Screen Archetypes
 
@@ -44,7 +44,7 @@
      * User is able to generate a weekly menu
      * User is able to generate a weekly shopping list
      * App tracks calories of recipes and user is able to designate a meal plan budget for the week
-     * App tracks price of ingrediants and user is able to designate a meal plan budget for the week
+     * App tracks price of ingredients and user is able to designate a meal plan budget for the week
      * User can scan a preexisting recipe and have the app auto fill into a recipe card
  * Pantry
      * Track items in a user's pantry
