@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.codepath.myrecipes.ui.post.DashboardFragment"
+        android:name="com.codepath.myrecipes.ui.compose.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 

@@ -1,4 +1,4 @@
-package com.codepath.myrecipes.ui.post;
+package com.codepath.myrecipes.ui.compose;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +32,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
         // Grab the item at the position
         String item = items.get(position);
         // Bind the iem into the specified view holder
-        holder.bind(position + ". " + item);
+        holder.bind((position + 1) + ". " + item);
     }
 
     @Override

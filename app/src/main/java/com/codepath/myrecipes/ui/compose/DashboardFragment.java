@@ -1,4 +1,4 @@
-package com.codepath.myrecipes.ui.post;
+package com.codepath.myrecipes.ui.compose;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -24,8 +24,6 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.security.auth.login.LoginException;
 
 public class DashboardFragment extends Fragment {
     public static final String TAG = "DashboardFragment";
@@ -105,33 +103,6 @@ public class DashboardFragment extends Fragment {
                 }
             }
         });
-
-//        view.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
-//            @Override
-//            public void onSwipeTop() {
-//                Toast.makeText(getActivity(), "top", Toast.LENGTH_SHORT).show();
-//            }
-//            @Override
-//            public void onSwipeRight() {
-//                Toast.makeText(getActivity(), "right", Toast.LENGTH_SHORT).show();
-//                String step = mEtStep.getText().toString();
-//                // add step to model
-//                mItems.add(step);
-//                // notify adapter that item is inserted
-//                mItemsAdapter.notifyItemInserted(mItems.size());
-//                // clear edit text box
-//                mEtStep.setText("");
-//                mRvItems.scrollToPosition(mItems.size() - 1);
-//            }
-//            @Override
-//            public void onSwipeLeft() {
-//                Toast.makeText(getActivity(), "left", Toast.LENGTH_SHORT).show();
-//            }
-//            @Override
-//            public void onSwipeBottom() {
-//                Toast.makeText(getActivity(), "bottom", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     private void savePost(String recipeName, ParseUser currentUser, List<String> mItems) {

@@ -1,16 +1,35 @@
 package com.codepath.myrecipes.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.codepath.myrecipes.InstructionsFragment;
 import com.codepath.myrecipes.Post;
+import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.databinding.ActivityPostBinding;
-import com.codepath.myrecipes.ui.post.OnSwipeTouchListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.parceler.Parcels;
 
@@ -20,10 +39,11 @@ public class PostActivity extends AppCompatActivity {
 
     public static final String TAG = "PostActivity";
 
-    private TextView mTvUsername;
     private TextView mTvDescription;
-    private TextView mTvSteps;
-    private TextView mTvIngredients;
+    private ImageView mIvImage;
+
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,42 +54,46 @@ public class PostActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.viewPager);
+        tabLayout.addTab(tabLayout.newTab().setText("Ingredients"));
+        tabLayout.addTab(tabLayout.newTab().setText("Instructions"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
         Post post = (Post) Parcels.unwrap(getIntent().getParcelableExtra("post"));
-        Log.d(TAG, "onCreate: tweet contents" + post);
+        Log.d(TAG, "onCreate: post contents" + post);
 
-        ArrayList<String> instructions = (ArrayList<String>) post.getKeySteps();
-
-        mTvUsername = binding.tvUsername;
-        mTvSteps = binding.tvSteps;
         mTvDescription = binding.tvDescription;
-        mTvIngredients = binding.tvIngredients;
+        mIvImage = binding.ivImage;
 
-        mTvUsername.setText(post.getUser().getUsername());
         mTvDescription.setText(post.getDescription());
-        StringBuilder sb = new StringBuilder();
-        if (post.getKeySteps() != null) {
-            for (int i = 0; i < instructions.size(); i++) {
-                String step = instructions.get(i);
-                sb.append(i);
-                sb.append(". ");
-                sb.append(step);
-                sb.append("\n");
+
+        Glide.with(this)
+                .load(post.getImage().getUrl())
+                .centerCrop()
+                .into(mIvImage);
+
+
+        Intent intent = new Intent(this, InstructionsFragment.class);
+        intent.putExtra("post", post);
+
+        final TabAdapter tabAdapter = new TabAdapter(this.getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(tabAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
             }
-            mTvSteps.setText(sb);
-        }
-//
-//        ArrayList<String> ingredients = (ArrayList<String>) post.getKeyIngredients();
-//
-//        sb = new StringBuilder();
-//        if (post.getKeyIngredients() != null) {
-//            for (int i = 0; i < ingredients.size(); i++) {
-//                String step = ingredients.get(i);
-//                sb.append(i);
-//                sb.append(". ");
-//                sb.append(step);
-//                sb.append("\n");
-//            }
-//            mTvSteps.setText(sb);
-//        }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
     }
+
 }
