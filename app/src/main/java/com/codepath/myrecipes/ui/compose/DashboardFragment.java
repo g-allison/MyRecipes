@@ -2,20 +2,26 @@ package com.codepath.myrecipes.ui.compose;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepath.myrecipes.MainActivity;
+import com.codepath.myrecipes.OnSwipeTouchListener;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
 import com.parse.ParseException;
@@ -35,7 +41,6 @@ public class DashboardFragment extends Fragment {
     private EditText mEtRecipeName;
     private EditText mEtStep;
     private Button mBtnPost;
-    private Button mBtnAdd;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -49,10 +54,12 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+//        relativeLayout = view.findViewById(R.id.relative_layout);
+//        swipeListener = new SwipeListener(relativeLayout);
+
         mEtRecipeName = view.findViewById(R.id.etRecipeName);
         mEtStep = view.findViewById(R.id.etStep);
         mBtnPost = view.findViewById(R.id.btnPost);
-        mBtnAdd = view.findViewById(R.id.btnAdd);
         mRvItems = view.findViewById(R.id.rvItems);
 
         mItems = new ArrayList<>();
@@ -71,6 +78,8 @@ public class DashboardFragment extends Fragment {
         mItemsAdapter = new StepAdapter(mItems, onLongClickListener);
         mRvItems.setAdapter(mItemsAdapter);
         mRvItems.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRvItems.addItemDecoration(new DividerItemDecoration(mRvItems.getContext(), DividerItemDecoration.VERTICAL));
+
 
         mBtnPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,9 +95,10 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        mBtnAdd.setOnClickListener(new View.OnClickListener() {
+        view.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
             @Override
-            public void onClick(View v) {
+            public void onSwipeRight() {
+//                Toast.makeText(getActivity(), "RIGHT", Toast.LENGTH_SHORT).show();
                 String step = mEtStep.getText().toString();
                 if (!step.isEmpty()) {
                     // add step to model
@@ -103,6 +113,7 @@ public class DashboardFragment extends Fragment {
                 }
             }
         });
+
     }
 
     private void savePost(String recipeName, ParseUser currentUser, List<String> mItems) {

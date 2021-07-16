@@ -26,10 +26,10 @@
             android:layout_below="@+id/ivImage"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
-            android:text="Chicken fettuccine"
             android:textColor="@color/black"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Chicken fettuccine" />
 
         <com.codepath.myrecipes.WrapContentHeightViewPager
             android:id="@+id/viewPager"
