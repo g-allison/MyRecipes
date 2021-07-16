@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -23,9 +22,11 @@ import java.util.ArrayList;
  */
 public class InstructionsFragment extends Fragment {
     private static final String TAG = "InstructionsFragment";
-
     private TextView mTvSteps;
 
+    public InstructionsFragment() {
+        // required empty constructor
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,11 +42,11 @@ public class InstructionsFragment extends Fragment {
 
         mTvSteps = view.findViewById(R.id.tvSteps);
 
-        ArrayList<String> instructions = (ArrayList<String>) post.getKeySteps();
+        ArrayList<String> instructionsList = (ArrayList<String>) post.getKeySteps();
         StringBuilder sb = new StringBuilder();
         if (post.getKeySteps() != null) {
-            for (int i = 0; i < instructions.size(); i++) {
-                String step = instructions.get(i);
+            for (int i = 0; i < instructionsList.size(); i++) {
+                String step = instructionsList.get(i);
                 if (i != 0) {
                     sb.append("\n");
                 }

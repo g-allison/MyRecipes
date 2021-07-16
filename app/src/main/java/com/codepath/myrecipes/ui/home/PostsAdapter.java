@@ -4,12 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
 import com.parse.ParseUser;
@@ -56,6 +59,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView mTvUsername;
         private TextView mTvDescription;
         private RelativeLayout mRlContainer;
+        private ImageView mIvImage;
 
         OnPostListener onPostListener;
 
@@ -63,6 +67,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             super(itemView);
             mTvUsername = itemView.findViewById(R.id.tvUsername);
             mTvDescription = itemView.findViewById(R.id.tvDescription);
+            mIvImage = itemView.findViewById(R.id.ivImage);
             mRlContainer = itemView.findViewById(R.id.rlContainer);
             this.onPostListener = onPostListener;
         }
@@ -78,6 +83,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             // bind data to the view
             mTvDescription.setText(post.getDescription());
             mTvUsername.setText("@" + post.getUser().getUsername());
+            if (post.getImage() != null) {
+                mIvImage.setVisibility(View.VISIBLE);
+                Glide.with(mContext)
+                        .load(post.getImage().getUrl())
+//                        .centerCrop()
+//                        .transform(new RoundedCorners(100))
+                        .into(mIvImage);
+            } else {
+                mIvImage.setVisibility(View.GONE);
+            }
         }
     }
 

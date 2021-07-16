@@ -22,6 +22,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.codepath.myrecipes.IngredientsFragment;
 import com.codepath.myrecipes.InstructionsFragment;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
@@ -68,13 +69,20 @@ public class PostActivity extends AppCompatActivity {
 
         mTvDescription.setText(post.getDescription());
 
-        Glide.with(this)
-                .load(post.getImage().getUrl())
-                .centerCrop()
-                .into(mIvImage);
-
+        if (post.getImage() != null) {
+            mIvImage.setVisibility(View.VISIBLE);
+            Glide.with(this)
+                    .load(post.getImage().getUrl())
+                    .centerCrop()
+                    .into(mIvImage);
+        } else {
+            mIvImage.setVisibility(View.GONE);
+        }
 
         Intent intent = new Intent(this, InstructionsFragment.class);
+        intent.putExtra("post", post);
+
+        intent = new Intent(this, IngredientsFragment.class);
         intent.putExtra("post", post);
 
         final TabAdapter tabAdapter = new TabAdapter(this.getSupportFragmentManager(), tabLayout.getTabCount());

@@ -56,7 +56,7 @@ public class DashboardFragment extends Fragment {
         mEtRecipeName = view.findViewById(R.id.etRecipeName);
         mEtStep = view.findViewById(R.id.etStep);
         mBtnPost = view.findViewById(R.id.btnPost);
-        mEtIngredient = view.findViewById(R.id.etIngredients);
+        mEtIngredient = view.findViewById(R.id.etIngredient);
         mStepsList = new ArrayList<>();
         mIngredientsList = new ArrayList<>();
 
@@ -79,7 +79,6 @@ public class DashboardFragment extends Fragment {
                 mRvIngredients.scrollToPosition(mIngredientsList.size() - 1);
             }
         };
-
 
 
         mRvIngredients = view.findViewById(R.id.rvIngredients);
@@ -105,7 +104,7 @@ public class DashboardFragment extends Fragment {
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                savePost(recipeName, currentUser, mStepsList);
+                savePost(recipeName, currentUser, mStepsList, mIngredientsList);
 
             }
         });
@@ -168,10 +167,12 @@ public class DashboardFragment extends Fragment {
 
     }
 
-    private void savePost(String recipeName, ParseUser currentUser, List<String> mItems) {
+    private void savePost(String recipeName, ParseUser currentUser,
+                          List<String> mStepsList, List<String> mIngredientsList) {
         Post post = new Post();
         post.setDescription(recipeName);
-        post.setKeySteps(mItems);
+        post.setKeySteps(mStepsList);
+        post.setKeyIngredients(mIngredientsList);
 
         post.setUser(currentUser);
         post.saveInBackground(new SaveCallback() {
@@ -183,7 +184,8 @@ public class DashboardFragment extends Fragment {
                 }
                 Log.i(TAG, "Post save was successful!");
                 mEtRecipeName.setText("");
-                mItems.clear();
+                mStepsList.clear();
+                mIngredientsList.clear();
                 ((MainActivity) getActivity()).postTransition();
             }
         });

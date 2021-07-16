@@ -12,11 +12,11 @@
         android:id="@+id/btnPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rvIngredients"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="130dp"
         android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
         android:text="Post"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -35,41 +35,38 @@
         android:id="@+id/etStep"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etRecipeName"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
+        android:layout_below="@+id/rvIngredients"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="0dp"
-        android:ems="10"
-        android:hint="Add steps"
-        android:inputType="textMultiLine"
-        tools:layout_editor_absoluteX="46dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvSteps"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_below="@+id/etStep"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp" />
-
-    <EditText
-        android:id="@+id/etIngredients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rvSteps"
-        android:layout_marginTop="63dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Add ingredients"
+        android:hint="Add steps"
         android:inputType="textMultiLine" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvIngredients"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_below="@+id/etIngredients"
+        android:layout_below="@+id/etIngredient"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp" />
+
+    <EditText
+        android:id="@+id/etIngredient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etRecipeName"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="30dp"
+        android:hint="Add ingredients"
+        android:inputType="textMultiLine" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSteps"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@+id/etStep"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp" />
 

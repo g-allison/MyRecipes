@@ -2,12 +2,16 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".IngredientsFragment">
 
     <TextView
+        android:id="@+id/tvIngredients"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="hello ingredients fragment" />
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        tools:text="1/2 cup of milk" />
 
 </FrameLayout>

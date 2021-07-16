@@ -6,21 +6,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.codepath.myrecipes.MainActivity;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
-import com.codepath.myrecipes.databinding.FragmentHomeBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -50,7 +45,7 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
     }
 
     @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRvPosts = view.findViewById(R.id.rvPosts);
 
@@ -59,7 +54,6 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
 
         mRvPosts.setAdapter(mAdapter);
         mRvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRvPosts.addItemDecoration(new DividerItemDecoration(mRvPosts.getContext(), DividerItemDecoration.VERTICAL));
 
         mSwipeContainer = view.findViewById(R.id.swipeContainer);
 
