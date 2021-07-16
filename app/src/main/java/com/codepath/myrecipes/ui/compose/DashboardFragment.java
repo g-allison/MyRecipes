@@ -2,15 +2,11 @@ package com.codepath.myrecipes.ui.compose;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepath.myrecipes.MainActivity;
-import com.codepath.myrecipes.OnSwipeTouchListener;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
 import com.parse.ParseException;
@@ -34,12 +29,16 @@ import java.util.List;
 public class DashboardFragment extends Fragment {
     public static final String TAG = "DashboardFragment";
 
-    RecyclerView mRvItems;
-    StepAdapter mItemsAdapter;
-    List<String> mItems;
+    RecyclerView mRvSteps;
+    RecyclerView mRvIngredients;
+    StepsAdapter mStepsAdapter;
+    IngredientsAdapter mIngredientsAdapter;
+    List<String> mIngredientsList;
+    List<String> mStepsList;
 
     private EditText mEtRecipeName;
     private EditText mEtStep;
+    private EditText mEtIngredient;
     private Button mBtnPost;
 
     public DashboardFragment() {
@@ -54,31 +53,47 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        relativeLayout = view.findViewById(R.id.relative_layout);
-//        swipeListener = new SwipeListener(relativeLayout);
-
         mEtRecipeName = view.findViewById(R.id.etRecipeName);
         mEtStep = view.findViewById(R.id.etStep);
         mBtnPost = view.findViewById(R.id.btnPost);
-        mRvItems = view.findViewById(R.id.rvItems);
+        mEtIngredient = view.findViewById(R.id.etIngredients);
+        mStepsList = new ArrayList<>();
+        mIngredientsList = new ArrayList<>();
 
-        mItems = new ArrayList<>();
-
-        StepAdapter.OnLongClickListener onLongClickListener = new StepAdapter.OnLongClickListener() {
+        StepsAdapter.OnLongClickListener onLongClickListener = new StepsAdapter.OnLongClickListener() {
             @Override
             public void onItemLongClicked(int position) {
                 // deletes item from model
-                mItems.remove(position);
-                mItemsAdapter.notifyItemRemoved(position);
-                mItemsAdapter.notifyDataSetChanged();
-                mRvItems.scrollToPosition(mItems.size() - 1);
+                mStepsList.remove(position);
+                mStepsAdapter.notifyItemRemoved(position);
+                mStepsAdapter.notifyDataSetChanged();
+                mRvSteps.scrollToPosition(mStepsList.size() - 1);
             }
         };
 
-        mItemsAdapter = new StepAdapter(mItems, onLongClickListener);
-        mRvItems.setAdapter(mItemsAdapter);
-        mRvItems.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRvItems.addItemDecoration(new DividerItemDecoration(mRvItems.getContext(), DividerItemDecoration.VERTICAL));
+        IngredientsAdapter.OnLongClickListener onLongClickListener1 = new StepsAdapter.OnLongClickListener() {
+            @Override
+            public void onItemLongClicked(int position) {
+                mIngredientsList.remove(position);
+                mIngredientsAdapter.notifyItemRemoved(position);
+                mRvIngredients.scrollToPosition(mIngredientsList.size() - 1);
+            }
+        };
+
+
+
+        mRvIngredients = view.findViewById(R.id.rvIngredients);
+        mIngredientsAdapter = new IngredientsAdapter(mIngredientsList, onLongClickListener1);
+        mRvIngredients.setAdapter(mIngredientsAdapter);
+        mRvIngredients.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRvIngredients.addItemDecoration(new DividerItemDecoration(mRvIngredients.getContext(), DividerItemDecoration.VERTICAL));
+
+
+        mRvSteps = view.findViewById(R.id.rvSteps);
+        mStepsAdapter = new StepsAdapter(mStepsList, onLongClickListener);
+        mRvSteps.setAdapter(mStepsAdapter);
+        mRvSteps.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRvSteps.addItemDecoration(new DividerItemDecoration(mRvSteps.getContext(), DividerItemDecoration.VERTICAL));
 
 
         mBtnPost.setOnClickListener(new View.OnClickListener() {
@@ -90,29 +105,66 @@ public class DashboardFragment extends Fragment {
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                savePost(recipeName, currentUser, mItems);
+                savePost(recipeName, currentUser, mStepsList);
 
             }
         });
 
-        view.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
+        mEtStep.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onSwipeRight() {
-//                Toast.makeText(getActivity(), "RIGHT", Toast.LENGTH_SHORT).show();
+            public boolean onLongClick(View v) {
                 String step = mEtStep.getText().toString();
                 if (!step.isEmpty()) {
                     // add step to model
-                    mItems.add(step);
+                    mStepsList.add(step);
                     // notify adapter that item is inserted
-                    mItemsAdapter.notifyItemInserted(mItems.size());
+                    mStepsAdapter.notifyItemInserted(mStepsList.size());
                     // clear edit text box
                     mEtStep.setText("");
-                    mRvItems.scrollToPosition(mItems.size() - 1);
+                    mRvSteps.scrollToPosition(mStepsList.size() - 1);
                 } else {
                     Toast.makeText(getContext(), "field is empty", Toast.LENGTH_SHORT).show();
                 }
+                return true;
             }
         });
+
+        mEtIngredient.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String ingredient = mEtIngredient.getText().toString();
+                if (!ingredient.isEmpty()) {
+                    // add step to model
+                    mIngredientsList.add(ingredient);
+                    // notify adapter that item is inserted
+                    mIngredientsAdapter.notifyItemInserted(mIngredientsList.size());
+                    // clear edit text box
+                    mEtIngredient.setText("");
+                    mRvIngredients.scrollToPosition(mIngredientsList.size() - 1);
+                } else {
+                    Toast.makeText(getContext(), "field is empty", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
+
+//        view.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
+//            @Override
+//            public void onSwipeRight() {
+//                String step = mEtStep.getText().toString();
+//                if (!step.isEmpty()) {
+//                    // add step to model
+//                    mSteps.add(step);
+//                    // notify adapter that item is inserted
+//                    mItemsAdapter.notifyItemInserted(mSteps.size());
+//                    // clear edit text box
+//                    mEtStep.setText("");
+//                    mRvSteps.scrollToPosition(mSteps.size() - 1);
+//                } else {
+//                    Toast.makeText(getContext(), "field is empty", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
     }
 

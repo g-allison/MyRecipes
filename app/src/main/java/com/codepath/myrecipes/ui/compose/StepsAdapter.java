@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
+public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
 
     List<String> items;
     OnLongClickListener longClickListener;
 
-    public StepAdapter(List<String> items, OnLongClickListener longClickListener) {
+    public StepsAdapter(List<String> items, OnLongClickListener longClickListener) {
         this.items = items;
         this.longClickListener = longClickListener;
     }
