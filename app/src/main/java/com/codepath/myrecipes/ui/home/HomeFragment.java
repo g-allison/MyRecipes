@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -19,9 +18,7 @@ import com.codepath.myrecipes.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
-import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -47,7 +44,7 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRvPosts = view.findViewById(R.id.rvPosts);
+        mRvPosts = view.findViewById(R.id.rvDays);
 
         mAllPosts = new ArrayList<>();
         mAdapter = new PostsAdapter(getContext(), mAllPosts, this);

@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -42,9 +41,9 @@ public class IngredientsFragment extends Fragment {
 
         mTvIngredients = view.findViewById(R.id.tvIngredients);
 
-        ArrayList<String> ingredientsList = (ArrayList<String>) post.getKeyIngredients();
+        ArrayList<String> ingredientsList = (ArrayList<String>) post.getIngredients();
         StringBuilder sb = new StringBuilder();
-        if (post.getKeyIngredients() != null) {
+        if (post.getIngredients() != null) {
             for (int i = 0; i < ingredientsList.size(); i++) {
                 String ingredient = ingredientsList.get(i);
                 if (i != 0) {

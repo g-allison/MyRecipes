@@ -56,19 +56,19 @@ public class Post extends ParseObject {
         put(KEY_USER, parseUser);
     }
 
-    public Object getKeySteps() {
+    public Object getSteps() {
         return get(KEY_STEPS);
     }
 
-    public void setKeySteps(Object obj) {
+    public void setSteps(Object obj) {
         put(KEY_STEPS, obj);
     }
 
-    public Object getKeyIngredients() {
+    public Object getIngredients() {
         return get(KEY_INGREDIENTS);
     }
 
-    public void setKeyIngredients(Object obj) {
+    public void setIngredients(Object obj) {
         put(KEY_INGREDIENTS, obj);
     }
 

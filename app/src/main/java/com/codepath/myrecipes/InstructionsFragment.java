@@ -42,9 +42,9 @@ public class InstructionsFragment extends Fragment {
 
         mTvSteps = view.findViewById(R.id.tvSteps);
 
-        ArrayList<String> instructionsList = (ArrayList<String>) post.getKeySteps();
+        ArrayList<String> instructionsList = (ArrayList<String>) post.getSteps();
         StringBuilder sb = new StringBuilder();
-        if (post.getKeySteps() != null) {
+        if (post.getSteps() != null) {
             for (int i = 0; i < instructionsList.size(); i++) {
                 String step = instructionsList.get(i);
                 if (i != 0) {

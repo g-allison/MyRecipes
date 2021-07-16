@@ -171,8 +171,8 @@ public class DashboardFragment extends Fragment {
                           List<String> mStepsList, List<String> mIngredientsList) {
         Post post = new Post();
         post.setDescription(recipeName);
-        post.setKeySteps(mStepsList);
-        post.setKeyIngredients(mIngredientsList);
+        post.setSteps(mStepsList);
+        post.setIngredients(mIngredientsList);
 
         post.setUser(currentUser);
         post.saveInBackground(new SaveCallback() {
