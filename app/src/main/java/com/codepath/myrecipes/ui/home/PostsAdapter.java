@@ -1,6 +1,7 @@
 package com.codepath.myrecipes.ui.home;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.DrawableImageViewTarget;
+import com.codepath.myrecipes.BitmapScaler;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 
@@ -83,8 +87,19 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             // bind data to the view
             mTvDescription.setText(post.getDescription());
             mTvUsername.setText("@" + post.getUser().getUsername());
+
             if (post.getImage() != null) {
                 mIvImage.setVisibility(View.VISIBLE);
+
+//                ParseFile image = post.getImage();
+//                Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(image, 100);
+//
+//                // Configures byte output stream
+//                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//                // Compresses the image further
+//                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+
+
                 Glide.with(mContext)
                         .load(post.getImage().getUrl())
                         .into(new DrawableImageViewTarget(mIvImage, /*waitForLayout=*/ true));
