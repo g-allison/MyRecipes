@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
 import com.parse.ParseUser;
@@ -87,9 +87,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 mIvImage.setVisibility(View.VISIBLE);
                 Glide.with(mContext)
                         .load(post.getImage().getUrl())
-//                        .centerCrop()
-//                        .transform(new RoundedCorners(100))
-                        .into(mIvImage);
+                        .into(new DrawableImageViewTarget(mIvImage, /*waitForLayout=*/ true));
             } else {
                 mIvImage.setVisibility(View.GONE);
             }
