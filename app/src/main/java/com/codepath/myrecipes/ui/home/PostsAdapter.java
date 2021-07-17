@@ -1,7 +1,6 @@
 package com.codepath.myrecipes.ui.home;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.DrawableImageViewTarget;
-import com.codepath.myrecipes.BitmapScaler;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
-import com.parse.ParseFile;
-import com.parse.ParseUser;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 

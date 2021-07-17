@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Monday" />
@@ -28,11 +29,11 @@
             android:layout_height="1dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="30dp"
             android:background="?android:attr/listDivider" />
 
         <ImageView
-            android:id="@+id/ivImage"
+            android:id="@+id/ivAddIcon"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_below="@+id/divider"
@@ -40,6 +41,15 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             tools:srcCompat="@mipmap/instagram_new_post_outline_24" />
+
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     </RelativeLayout>
 
