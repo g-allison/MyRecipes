@@ -91,15 +91,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (post.getImage() != null) {
                 mIvImage.setVisibility(View.VISIBLE);
 
-//                ParseFile image = post.getImage();
-//                Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(image, 100);
-//
-//                // Configures byte output stream
-//                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//                // Compresses the image further
-//                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-
-
                 Glide.with(mContext)
                         .load(post.getImage().getUrl())
                         .into(new DrawableImageViewTarget(mIvImage, /*waitForLayout=*/ true));

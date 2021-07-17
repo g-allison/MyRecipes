@@ -3,38 +3,23 @@ package com.codepath.myrecipes.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.myrecipes.IngredientsFragment;
 import com.codepath.myrecipes.InstructionsFragment;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.databinding.ActivityPostBinding;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.parceler.Parcels;
-
-import java.util.ArrayList;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -85,7 +70,7 @@ public class PostActivity extends AppCompatActivity {
         intent = new Intent(this, IngredientsFragment.class);
         intent.putExtra("post", post);
 
-        final TabAdapter tabAdapter = new TabAdapter(this.getSupportFragmentManager(), tabLayout.getTabCount());
+        final RecipeTabAdapter tabAdapter = new RecipeTabAdapter(this.getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(tabAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

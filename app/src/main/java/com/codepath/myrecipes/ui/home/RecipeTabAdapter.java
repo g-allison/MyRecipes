@@ -9,11 +9,11 @@ import com.codepath.myrecipes.IngredientsFragment;
 import com.codepath.myrecipes.InstructionsFragment;
 
 
-public class TabAdapter extends FragmentPagerAdapter {
+public class RecipeTabAdapter extends FragmentPagerAdapter {
 
     int tabCount;
 
-    public TabAdapter(@NonNull FragmentManager fm, int numberOfTabs) {
+    public RecipeTabAdapter(@NonNull FragmentManager fm, int numberOfTabs) {
         super(fm);
         this.tabCount = numberOfTabs;
     }

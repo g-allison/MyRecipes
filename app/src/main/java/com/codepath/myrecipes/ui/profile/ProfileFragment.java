@@ -1,24 +1,36 @@
 package com.codepath.myrecipes.ui.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.Glide;
+import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.ui.WeeklyMenu;
+import com.codepath.myrecipes.ui.home.PostActivity;
+import com.codepath.myrecipes.ui.home.PostsAdapter;
+import com.google.android.material.tabs.TabLayout;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
-import java.lang.reflect.Array;
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +38,12 @@ public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
 
-    private RecyclerView mRvDays;
-    private ProfileAdapter mAdapter;
-    // TODO: rename list
-    private List<WeeklyMenu> mItems;
+    private ImageView mIvProfilePicture;
+    private TextView mTvUsername;
+    private Button mBtnFollow;
+
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -42,40 +56,38 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRvDays = view.findViewById(R.id.rvDays);
 
-        mItems = new ArrayList<>();
+        mIvProfilePicture = view.findViewById(R.id.ivProfilePicture);
+        mTvUsername = view.findViewById(R.id.tvUsername);
+        mBtnFollow = view.findViewById(R.id.btnFollow);
 
-        mAdapter = new ProfileAdapter(getContext(), mItems);
+        ParseUser user = ParseUser.getCurrentUser();
+        mTvUsername.setText(user.getUsername());
 
-        mRvDays.setAdapter(mAdapter);
-        mRvDays.setLayoutManager(new LinearLayoutManager(getContext()));
+        // initializing tab header and titles
+        tabLayout = view.findViewById(R.id.tabLayout);
+        viewPager = view.findViewById(R.id.viewPager);
+        // TODO: add tab titles to strings xml
+        tabLayout.addTab(tabLayout.newTab().setText("Weekly Menu"));
+        tabLayout.addTab(tabLayout.newTab().setText("My Recipes"));
+        tabLayout.addTab(tabLayout.newTab().setText("Shopping list"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        // TODO: rename method
-        queryItems();
-    }
-
-    private void queryItems() {
-        ParseQuery<WeeklyMenu> query = ParseQuery.getQuery(WeeklyMenu.class);
-        query.include(WeeklyMenu.KEY_DAY);
-        query.setLimit(7);
-        query.addAscendingOrder(WeeklyMenu.KEY_CREATED_AT);
-
-        query.findInBackground(new FindCallback<WeeklyMenu>() {
+        // creating tab pages
+        final ProfileTabAdapter tabAdapter = new ProfileTabAdapter(this.getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(tabAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void done(List<WeeklyMenu> days, ParseException e) {
-                // checks for errors
-                if (e != null) {
-                    Log.e(TAG, "Issue with WeeklyMenu query", e);
-                    return;
-                }
-
-                for (WeeklyMenu day : days) {
-                    Log.i(TAG, "day: " + day.getDay());
-                }
-                mItems.addAll(days);
-                mAdapter.notifyDataSetChanged();
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
             }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) { }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
         });
     }
 }
