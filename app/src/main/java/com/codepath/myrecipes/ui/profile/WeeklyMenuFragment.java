@@ -62,7 +62,6 @@ public class WeeklyMenuFragment extends Fragment {
         query.include(WeeklyMenu.KEY_DAY);
         query.setLimit(7);
         query.addAscendingOrder(WeeklyMenu.KEY_CREATED_AT);
-
         query.findInBackground(new FindCallback<WeeklyMenu>() {
             @Override
             public void done(List<WeeklyMenu> days, ParseException e) {
@@ -77,8 +76,6 @@ public class WeeklyMenuFragment extends Fragment {
                 }
                 mDays.addAll(days);
                 mDaysAdapter.notifyDataSetChanged();
-
-
             }
         });
     }

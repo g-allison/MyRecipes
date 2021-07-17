@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,12 +35,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyRecipesFragment extends Fragment implements PostsAdapter.OnPostListener{
+public class MyRecipesFragment extends Fragment implements GridAdapter.OnPostListener{
 
     public static final String TAG = "MyRecipesFragment";
 
     private RecyclerView mRvPosts;
-    private PostsAdapter mPostsAdapter;
+    protected GridAdapter mAdapter;
     private List<Post> mPosts;
 
     public MyRecipesFragment() {
@@ -54,15 +55,16 @@ public class MyRecipesFragment extends Fragment implements PostsAdapter.OnPostLi
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        final int NUM_COLUMNS = 3;
         super.onViewCreated(view, savedInstanceState);
 
         mRvPosts = view.findViewById(R.id.rvPosts);
 
         // creating posts recycler view
         mPosts = new ArrayList<>();
-        mPostsAdapter = new PostsAdapter(getContext(), mPosts, this);
-        mRvPosts.setAdapter(mPostsAdapter);
-        mRvPosts.setLayoutManager(new LinearLayoutManager(mRvPosts.getContext()));
+        mAdapter = new GridAdapter(getContext(), mPosts, this);
+        mRvPosts.setAdapter(mAdapter);
+        mRvPosts.setLayoutManager(new GridLayoutManager(mRvPosts.getContext(), NUM_COLUMNS));
 
         queryPosts();
 
@@ -87,13 +89,7 @@ public class MyRecipesFragment extends Fragment implements PostsAdapter.OnPostLi
                 }
 
                 mPosts.addAll(posts);
-                mPostsAdapter.notifyDataSetChanged();
-
-//                Post post = mPosts.get(0);
-//                Glide.with(view.getContext())
-//                        .load(post.getProfile().getUrl())
-//                        .circleCrop()
-//                        .into(mIvProfilePicture);
+                mAdapter.notifyDataSetChanged();
             }
         });
     }

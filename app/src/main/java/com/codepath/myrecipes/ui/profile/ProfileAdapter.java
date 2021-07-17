@@ -4,13 +4,17 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.ui.WeeklyMenu;
+import com.parse.Parse;
+import com.parse.ParseFile;
 
 import java.util.List;
 
@@ -48,15 +52,32 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         private TextView mTvWeekday;
+        private ImageView mIvImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mTvWeekday = itemView.findViewById(R.id.tvWeekday);
+            mIvImage = itemView.findViewById(R.id.ivImage);
         }
 
         public void bind(WeeklyMenu dayOfWeek) {
             mTvWeekday.setText(dayOfWeek.getDay());
+            ParseFile dayImage = dayOfWeek.getImage();
+
+            if (dayImage != null) {
+                Glide.with(mContext)
+                        .load(dayImage)
+                        .into(mIvImage);
+
+            } else {
+                Glide.with(mContext)
+                        .load(R.mipmap.instagram_new_post_outline_24)
+                        .into(mIvImage);
+            }
+
+
         }
     }
 

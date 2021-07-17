@@ -22,15 +22,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Monday" />
 
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvWeekday"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="0dp"
-            android:text="Today's recipe" />
-
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
@@ -39,6 +30,17 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="18dp"
             android:background="?android:attr/listDivider" />
+
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/divider"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            tools:srcCompat="@mipmap/instagram_new_post_outline_24" />
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

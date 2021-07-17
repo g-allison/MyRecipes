@@ -89,5 +89,30 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) { }
         });
+        queryForUser(view);
+    }
+
+    private void queryForUser(View view) {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(1);
+        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
+        query.addDescendingOrder(Post.KEY_CREATED_KEY);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                // checks for errors
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
+                    return;
+                }
+
+                Post post = posts.get(0);
+                Glide.with(view.getContext())
+                        .load(post.getProfile().getUrl())
+                        .circleCrop()
+                        .into(mIvProfilePicture);
+            }
+        });
     }
 }
