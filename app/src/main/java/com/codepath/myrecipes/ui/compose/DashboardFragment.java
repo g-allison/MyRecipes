@@ -1,12 +1,18 @@
 package com.codepath.myrecipes.ui.compose;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,18 +22,24 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.myrecipes.MainActivity;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardFragment extends Fragment {
     public static final String TAG = "DashboardFragment";
+    final int GALLERY_REQUEST = 100;
 
     RecyclerView mRvSteps;
     RecyclerView mRvIngredients;
@@ -39,7 +51,12 @@ public class DashboardFragment extends Fragment {
     private EditText mEtRecipeName;
     private EditText mEtStep;
     private EditText mEtIngredient;
+    private ImageView mIvImage;
+    private Button mBtnAddImage;
     private Button mBtnPost;
+
+    private View view;
+//    private ParseFile file;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -52,11 +69,28 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.view = view;
 
         mEtRecipeName = view.findViewById(R.id.etRecipeName);
         mEtStep = view.findViewById(R.id.etStep);
-        mBtnPost = view.findViewById(R.id.btnPost);
         mEtIngredient = view.findViewById(R.id.etIngredient);
+        mIvImage = view.findViewById(R.id.ivImage);
+        mBtnPost = view.findViewById(R.id.btnPost);
+        mBtnAddImage = view.findViewById(R.id.btnAdd);
+
+        mIvImage.setVisibility(View.GONE);
+        File emptyFile = new File("");
+//        file = new ParseFile(emptyFile);
+
+        mBtnAddImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+            }
+        });
+
         mStepsList = new ArrayList<>();
         mIngredientsList = new ArrayList<>();
 
@@ -167,12 +201,45 @@ public class DashboardFragment extends Fragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode){
+                case GALLERY_REQUEST:
+                    Uri selectedImage = data.getData();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+                        Glide.with(view.getContext())
+                                .load(bitmap)
+                                .into(mIvImage);
+                        mIvImage.setVisibility(View.VISIBLE);
+//                        file = conversionBitmapParseFile(bitmap);
+
+                    } catch (IOException e) {
+                        Log.i("TAG", "Some exception " + e);
+                    }
+                    break;
+            }
+        }
+    }
+
+    public ParseFile conversionBitmapParseFile(Bitmap imageBitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.PNG,100, byteArrayOutputStream);
+        byte[] imageByte = byteArrayOutputStream.toByteArray();
+        ParseFile parseFile = new ParseFile("image_file.png", imageByte);
+
+        return parseFile;
+    }
+
     private void savePost(String recipeName, ParseUser currentUser,
                           List<String> mStepsList, List<String> mIngredientsList) {
         Post post = new Post();
         post.setDescription(recipeName);
         post.setSteps(mStepsList);
         post.setIngredients(mIngredientsList);
+//        post.setProfile(file);
 
         post.setUser(currentUser);
         post.saveInBackground(new SaveCallback() {
@@ -186,6 +253,7 @@ public class DashboardFragment extends Fragment {
                 mEtRecipeName.setText("");
                 mStepsList.clear();
                 mIngredientsList.clear();
+                mIvImage.setVisibility(View.GONE);
                 ((MainActivity) getActivity()).postTransition();
             }
         });

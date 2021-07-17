@@ -74,7 +74,7 @@ public class MyRecipesFragment extends Fragment implements GridAdapter.OnPostLis
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.setLimit(20);
-        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
+//        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
         query.addDescendingOrder(Post.KEY_CREATED_KEY);
         query.findInBackground(new FindCallback<Post>() {
             @Override

@@ -1,17 +1,20 @@
 package com.codepath.myrecipes.ui.profile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.myrecipes.MainActivity;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.ui.WeeklyMenu;
@@ -23,6 +26,8 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static androidx.core.app.ActivityCompat.startActivityForResult;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder> {
     public static final String TAG = "ProfileAdapter";
@@ -73,63 +78,43 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
 
         public void bind(WeeklyMenu dayOfWeek) {
             mTvWeekday.setText(dayOfWeek.getDay());
-            ParseFile dayImage = dayOfWeek.getImage();
 
-//            String recipeName = ((Post) dayOfWeek.getRecipe()).getDescription();
-//            Post post = (Post) dayOfWeek.getRecipe();
+            if (dayOfWeek.getRecipe() != null) {
+                ParseQuery<WeeklyMenu> query = ParseQuery.getQuery(WeeklyMenu.class);
+                query.include(WeeklyMenu.KEY_RECIPE);
+                query.getInBackground(dayOfWeek.getObjectId(), (object, e) -> {
+                    if (e != null) {
+                        Log.e(TAG, "bind: issue with query", e);
+                    } else {
+                        Log.d(TAG, "bind: " + object.getRecipe());
+                        Post post = object.getRecipe();
+                        mIvImage.setVisibility(View.VISIBLE);
+                        mIvAddIcon.setVisibility(View.GONE);
+                        Glide.with(mContext)
+                                .load(post.getImage().getUrl())
+                                .into(mIvImage);
+                    }
 
-            if (dayImage != null) {
-                Log.d(TAG, "day has image: " + dayImage.getUrl());
-                mIvImage.setVisibility(View.VISIBLE);
-                mIvAddIcon.setVisibility(View.GONE);
-                Glide.with(mContext)
-                        .load(dayOfWeek.getImage().getUrl())
-                        .into(mIvImage);
+                });
+
 
             } else {
+                Log.d(TAG, "bind: null");
                 mIvAddIcon.setVisibility(View.VISIBLE);
                 mIvImage.setVisibility(View.GONE);
                 Glide.with(mContext)
                         .load(R.mipmap.instagram_new_post_outline_24)
                         .into(mIvAddIcon);
             }
-
-//            ArrayList<WeeklyMenu> results = new ArrayList<>();
-//
-//            ParseQuery<WeeklyMenu> query = ParseQuery.getQuery(WeeklyMenu.class);
-//            query.include(WeeklyMenu.KEY_DAY);
-//            query.setLimit(7);
-//            query.findInBackground(new FindCallback<WeeklyMenu>() {
-//                @Override
-//                public void done(List<WeeklyMenu> days, ParseException e) {
-//                    // checks for errors
-//                    if (e != null) {
-//                        Log.e(TAG, "Issue with WeeklyMenu query", e);
-//                        return;
-//                    }
-//
-//                    for (WeeklyMenu day : days) {
-//                        Log.d(TAG, "their post ID: " + day);
-//                        Log.d(TAG, "results: " + day);
-//                    }
-//                    results.addAll(days);
-//
-//                }
-//            });
-
-
+            mIvAddIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, "new recipes in the works", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, AddRecipeActivity.class);
+                    intent.putExtra("recipe card", dayOfWeek);
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

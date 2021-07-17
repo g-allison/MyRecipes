@@ -24,8 +24,8 @@ public class WeeklyMenu extends ParseObject {
         put(KEY_IMAGE, parseFile);
     }
 
-    public Object getRecipe() {
-        return get(KEY_RECIPE);
+    public Post getRecipe() {
+        return (Post) get(KEY_RECIPE);
     }
 
 
