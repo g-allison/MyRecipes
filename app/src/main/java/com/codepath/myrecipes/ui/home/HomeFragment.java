@@ -99,7 +99,6 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
 
     @Override
     public void onPostClick(int position) {
-//        ((MainActivity)getActivity()).profileTransition(user);
         Intent intent = new Intent(getContext(), PostActivity.class);
         intent.putExtra("post", Parcels.wrap(mAllPosts.get(position)));
         startActivity(intent);

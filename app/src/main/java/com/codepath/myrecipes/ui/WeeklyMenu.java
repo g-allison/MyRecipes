@@ -27,7 +27,4 @@ public class WeeklyMenu extends ParseObject {
     public Post getRecipe() {
         return (Post) get(KEY_RECIPE);
     }
-
-
-
 }

@@ -2,6 +2,7 @@ package com.codepath.myrecipes.ui.profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +19,14 @@ import com.codepath.myrecipes.MainActivity;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.ui.WeeklyMenu;
+import com.codepath.myrecipes.ui.home.PostActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,12 +72,14 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         private TextView mTvWeekday;
         private ImageView mIvAddIcon;
         private ImageView mIvImage;
+        private ImageView mIvDeleteIcon;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mTvWeekday = itemView.findViewById(R.id.tvWeekday);
             mIvAddIcon = itemView.findViewById(R.id.ivAddIcon);
             mIvImage = itemView.findViewById(R.id.ivImage);
+            mIvDeleteIcon = itemView.findViewById(R.id.ivDelete);
         }
 
         public void bind(WeeklyMenu dayOfWeek) {
@@ -86,13 +92,22 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                     if (e != null) {
                         Log.e(TAG, "bind: issue with query", e);
                     } else {
-                        Log.d(TAG, "bind: " + object.getRecipe());
                         Post post = object.getRecipe();
+                        Log.d(TAG, "bind: " + post);
                         mIvImage.setVisibility(View.VISIBLE);
+                        mIvDeleteIcon.setVisibility(View.VISIBLE);
                         mIvAddIcon.setVisibility(View.GONE);
                         Glide.with(mContext)
                                 .load(post.getImage().getUrl())
                                 .into(mIvImage);
+                        mIvImage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(mContext, PostActivity.class);
+                                intent.putExtra("post", Parcels.wrap(post));
+                                mContext.startActivity(intent);
+                            }
+                        });
                     }
 
                 });
@@ -102,6 +117,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                 Log.d(TAG, "bind: null");
                 mIvAddIcon.setVisibility(View.VISIBLE);
                 mIvImage.setVisibility(View.GONE);
+                mIvDeleteIcon.setVisibility(View.GONE);
                 Glide.with(mContext)
                         .load(R.mipmap.instagram_new_post_outline_24)
                         .into(mIvAddIcon);
@@ -109,10 +125,25 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
             mIvAddIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext, "new recipes in the works", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(mContext, AddRecipeActivity.class);
                     intent.putExtra("recipe card", dayOfWeek);
                     mContext.startActivity(intent);
+                }
+            });
+
+            mIvDeleteIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, "deleting...", Toast.LENGTH_SHORT).show();
+//                    dayOfWeek.getRecipe().deleteInBackground(e1 -> {
+//                        if (e1 == null) {
+//                            Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
+//                        }else{
+//                            //Something went wrong while deleting the Object
+//                            Toast.makeText(mContext, "Error: "+ e1.getMessage(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                    dayOfWeek.getRecipe().setObjectId("");
                 }
             });
         }

@@ -28,6 +28,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class WeeklyMenuFragment extends Fragment {
+
     public static final String TAG = "WeeklyMenuFragment";
 
     private RecyclerView mRvDays;

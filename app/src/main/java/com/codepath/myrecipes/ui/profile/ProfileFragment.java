@@ -48,6 +48,7 @@ public class ProfileFragment extends Fragment {
     final int GALLERY_REQUEST = 100;
 
     private ImageView mIvProfilePicture;
+    private ImageView mIvSettings;
     private TextView mTvUsername;
     private Button mBtnFollow;
     private View view;
@@ -71,6 +72,7 @@ public class ProfileFragment extends Fragment {
         mIvProfilePicture = view.findViewById(R.id.ivProfilePicture);
         mTvUsername = view.findViewById(R.id.tvUsername);
         mBtnFollow = view.findViewById(R.id.btnFollow);
+        mIvSettings = view.findViewById(R.id.ivSettings);
 
         ParseUser user = ParseUser.getCurrentUser();
         mTvUsername.setText(user.getUsername());
@@ -107,6 +109,14 @@ public class ProfileFragment extends Fragment {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+            }
+        });
+
+        mIvSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SettingsActivity.class);
+                startActivity(intent);
             }
         });
         queryForUser();
