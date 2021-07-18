@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +35,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -52,6 +54,8 @@ public class ProfileFragment extends Fragment {
     private TextView mTvUsername;
     private Button mBtnFollow;
     private View view;
+
+    private Post overallPost;
 
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -73,6 +77,8 @@ public class ProfileFragment extends Fragment {
         mTvUsername = view.findViewById(R.id.tvUsername);
         mBtnFollow = view.findViewById(R.id.btnFollow);
         mIvSettings = view.findViewById(R.id.ivSettings);
+
+        overallPost = new Post();
 
         ParseUser user = ParseUser.getCurrentUser();
         mTvUsername.setText(user.getUsername());
@@ -137,6 +143,30 @@ public class ProfileFragment extends Fragment {
                                 .into(mIvProfilePicture);
                         setUser(bitmap);
 
+
+                        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+                        byte[] imageByte = byteArrayOutputStream.toByteArray();
+                        ParseFile parseFile = new ParseFile("image_file.png",imageByte);
+                        Log.d(TAG, "onActivityResult: parseFile" + parseFile);
+
+                        overallPost.setProfile(parseFile);
+
+                        Log.d(TAG, "onActivityResult: file = " + bitmap.toString());
+
+                        overallPost.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e != null) {
+                                    Log.e(TAG, "Error while saving", e);
+                                    Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
+                                }
+                                Log.d(TAG, "done: file" + parseFile.getUrl());
+                                overallPost.setProfile(parseFile);
+                                Glide.with(view.getContext()).load(parseFile).into(mIvProfilePicture);
+                            }
+                        });
+
                     } catch (IOException e) {
                         Log.i("TAG", "Some exception " + e);
                     }
@@ -158,6 +188,12 @@ public class ProfileFragment extends Fragment {
                 }
                 Post post = posts.get(0);
                 post.setProfile(conversionBitmapParseFile(bitmap));
+                mIvProfilePicture.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
             }
         });
     }
@@ -166,8 +202,7 @@ public class ProfileFragment extends Fragment {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
         byte[] imageByte = byteArrayOutputStream.toByteArray();
-        ParseFile parseFile = new ParseFile("image_file.png",imageByte);
-        return parseFile;
+        return new ParseFile("image_file.png", imageByte);
     }
 
     private void queryForUser() {
@@ -185,9 +220,9 @@ public class ProfileFragment extends Fragment {
                     return;
                 }
 
-                Post post = posts.get(0);
+                overallPost = posts.get(0);
                 Glide.with(view.getContext())
-                        .load(post.getProfile().getUrl())
+                        .load(overallPost.getProfile().getUrl())
                         .circleCrop()
                         .into(mIvProfilePicture);
             }
