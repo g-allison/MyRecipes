@@ -144,10 +144,10 @@ public class ProfileFragment extends Fragment {
                         setUser(bitmap);
 
 
-                        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG,100, byteArrayOutputStream);
                         byte[] imageByte = byteArrayOutputStream.toByteArray();
-                        ParseFile parseFile = new ParseFile("image_file.png",imageByte);
+                        ParseFile parseFile = new ParseFile("image_file.png", imageByte);
                         Log.d(TAG, "onActivityResult: parseFile" + parseFile);
 
                         overallPost.setProfile(parseFile);
@@ -162,7 +162,7 @@ public class ProfileFragment extends Fragment {
                                     Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
                                 }
                                 Log.d(TAG, "done: file" + parseFile.getUrl());
-                                overallPost.setProfile(parseFile);
+//                                overallPost.setProfile(parseFile);
                                 Glide.with(view.getContext()).load(parseFile).into(mIvProfilePicture);
                             }
                         });
