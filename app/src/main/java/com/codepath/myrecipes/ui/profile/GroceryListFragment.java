@@ -50,8 +50,6 @@ public class GroceryListFragment extends Fragment {
     }
 
     private void queryDays() {
-//        ArrayList<String> week = new ArrayList<>();
-
         StringBuilder week = new StringBuilder();
 
         ParseQuery<WeeklyMenu> query = ParseQuery.getQuery(WeeklyMenu.class);
@@ -84,13 +82,13 @@ public class GroceryListFragment extends Fragment {
                                 Log.d(TAG, "done: ingredients = " + ingredients);
 
                                 if (days.indexOf(dayOfWeek) > 0) {
-                                    week.append("\n\n");
+                                    week.append(getResources().getString(R.string.double_tab));
                                 }
 
                                 for (String ingredient : ingredients) {
-                                    week.append(" • ");
+                                    week.append(getResources().getString(R.string.bullet));
                                     week.append(ingredient);
-                                    week.append("\n");
+                                    week.append(getResources().getString(R.string.single_tab));
                                 }
 //                                week.append(ingredients);
 

@@ -59,13 +59,13 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
             public void onRefresh() {
                 // clearing out old items before appending in the new ones
                 mAdapter.clear();
-                // ...the data has come back, add new items to your adapter...
+                // ...the data has come back, adding new items to your adapter...
                 queryPosts();
-                // Now we call setRefreshing(false) to signal refresh has finished
+                // calling setRefreshing(false) to signal refresh has finished
                 mSwipeContainer.setRefreshing(false);
             }
         });
-        // Configure the refreshing colors
+        // Configuring the refreshing colors
         mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,

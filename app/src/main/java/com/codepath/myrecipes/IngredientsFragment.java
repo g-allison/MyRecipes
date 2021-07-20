@@ -47,11 +47,11 @@ public class IngredientsFragment extends Fragment {
             for (int i = 0; i < ingredientsList.size(); i++) {
                 String ingredient = ingredientsList.get(i);
                 if (i != 0) {
-                    sb.append("\n");
+                    sb.append(getResources().getString(R.string.single_tab));
                 }
-                sb.append("• ");
+                sb.append(getResources().getString(R.string.bullet));
                 sb.append(ingredient);
-                sb.append("\n");
+                sb.append(getResources().getString(R.string.single_tab));
             }
             mTvIngredients.setText(sb);
         }

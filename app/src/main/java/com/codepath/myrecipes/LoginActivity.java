@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
             name = getIntent().getStringExtra("new account");
             if (name != null) {
                 // tells user that an account has been made
-                Toast.makeText(this, "New account created!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.new_account_created), Toast.LENGTH_LONG).show();
             }
             Log.i(TAG, "onCreate try: recentlyCreated status " + name);
 

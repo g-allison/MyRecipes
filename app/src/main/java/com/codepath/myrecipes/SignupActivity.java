@@ -43,7 +43,7 @@ public class SignupActivity extends AppCompatActivity {
 
                 // passwords must equal each other
                 if (!password.equals(passwordConfirm)) {
-                    Toast.makeText(SignupActivity.this, "passwords do not match", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, getResources().getString(R.string.matching_passwords), Toast.LENGTH_SHORT).show();
                 } else {
                     createUser(username, password);
                 }

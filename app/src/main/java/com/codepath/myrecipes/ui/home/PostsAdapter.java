@@ -81,7 +81,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
             // bind data to the view
             mTvDescription.setText(post.getDescription());
-            mTvUsername.setText("@" + post.getUser().getUsername());
+            mTvUsername.setText(itemView.getResources().getString(R.string.ampersand) + post.getUser().getUsername());
 
             if (post.getImage() != null) {
                 mIvImage.setVisibility(View.VISIBLE);

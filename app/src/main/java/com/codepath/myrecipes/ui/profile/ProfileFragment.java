@@ -86,10 +86,10 @@ public class ProfileFragment extends Fragment {
         // initializing tab header and titles
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
-        // TODO: add tab titles to strings xml
-        tabLayout.addTab(tabLayout.newTab().setText("Weekly Menu"));
-        tabLayout.addTab(tabLayout.newTab().setText("My Recipes"));
-        tabLayout.addTab(tabLayout.newTab().setText("Shopping list"));
+
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.weekly_menu_tab)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.my_recipes_tab)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.shopping_list_tab)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         // creating tab pages
@@ -147,7 +147,7 @@ public class ProfileFragment extends Fragment {
                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.PNG,100, byteArrayOutputStream);
                         byte[] imageByte = byteArrayOutputStream.toByteArray();
-                        ParseFile parseFile = new ParseFile("image_file.png", imageByte);
+                        ParseFile parseFile = new ParseFile(getResources().getString(R.string.image_file), imageByte);
                         Log.d(TAG, "onActivityResult: parseFile" + parseFile);
 
                         overallPost.setProfile(parseFile);
@@ -159,11 +159,9 @@ public class ProfileFragment extends Fragment {
                             public void done(ParseException e) {
                                 if (e != null) {
                                     Log.e(TAG, "Error while saving", e);
-                                    Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
                                 }
                                 Log.d(TAG, "done: file" + parseFile.getUrl());
-//                                overallPost.setProfile(parseFile);
-                                Glide.with(view.getContext()).load(parseFile).into(mIvProfilePicture);
                             }
                         });
 
@@ -202,7 +200,7 @@ public class ProfileFragment extends Fragment {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
         byte[] imageByte = byteArrayOutputStream.toByteArray();
-        return new ParseFile("image_file.png", imageByte);
+        return new ParseFile(getResources().getString(R.string.image_file), imageByte);
     }
 
     private void queryForUser() {

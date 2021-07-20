@@ -48,12 +48,12 @@ public class InstructionsFragment extends Fragment {
             for (int i = 0; i < instructionsList.size(); i++) {
                 String step = instructionsList.get(i);
                 if (i != 0) {
-                    sb.append("\n");
+                    sb.append(getResources().getString(R.string.single_tab));
                 }
                 sb.append(i+1);
-                sb.append(". ");
+                sb.append(getResources().getString(R.string.period));
                 sb.append(step);
-                sb.append("\n");
+                sb.append(getResources().getString(R.string.single_tab));
             }
             mTvSteps.setText(sb);
         }

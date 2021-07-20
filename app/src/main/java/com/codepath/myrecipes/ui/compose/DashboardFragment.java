@@ -79,8 +79,6 @@ public class DashboardFragment extends Fragment {
         mBtnAddImage = view.findViewById(R.id.btnAdd);
 
         mIvImage.setVisibility(View.GONE);
-        File emptyFile = new File("");
-//        file = new ParseFile(emptyFile);
 
         mBtnAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +132,7 @@ public class DashboardFragment extends Fragment {
             public void onClick(View v) {
                 String recipeName = mEtRecipeName.getText().toString();
                 if (recipeName.isEmpty()) {
-                    Toast.makeText(getContext(), "Title empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.empty_field), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
@@ -156,7 +154,7 @@ public class DashboardFragment extends Fragment {
                     mEtStep.setText("");
                     mRvSteps.scrollToPosition(mStepsList.size() - 1);
                 } else {
-                    Toast.makeText(getContext(), "field is empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.empty_field), Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
@@ -181,24 +179,6 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-//        view.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
-//            @Override
-//            public void onSwipeRight() {
-//                String step = mEtStep.getText().toString();
-//                if (!step.isEmpty()) {
-//                    // add step to model
-//                    mSteps.add(step);
-//                    // notify adapter that item is inserted
-//                    mItemsAdapter.notifyItemInserted(mSteps.size());
-//                    // clear edit text box
-//                    mEtStep.setText("");
-//                    mRvSteps.scrollToPosition(mSteps.size() - 1);
-//                } else {
-//                    Toast.makeText(getContext(), "field is empty", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
     }
 
     @Override
@@ -214,7 +194,6 @@ public class DashboardFragment extends Fragment {
                                 .load(bitmap)
                                 .into(mIvImage);
                         mIvImage.setVisibility(View.VISIBLE);
-//                        file = conversionBitmapParseFile(bitmap);
 
                     } catch (IOException e) {
                         Log.i("TAG", "Some exception " + e);
@@ -224,22 +203,12 @@ public class DashboardFragment extends Fragment {
         }
     }
 
-    public ParseFile conversionBitmapParseFile(Bitmap imageBitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        imageBitmap.compress(Bitmap.CompressFormat.PNG,100, byteArrayOutputStream);
-        byte[] imageByte = byteArrayOutputStream.toByteArray();
-        ParseFile parseFile = new ParseFile("image_file.png", imageByte);
-
-        return parseFile;
-    }
-
     private void savePost(String recipeName, ParseUser currentUser,
                           List<String> mStepsList, List<String> mIngredientsList) {
         Post post = new Post();
         post.setDescription(recipeName);
         post.setSteps(mStepsList);
         post.setIngredients(mIngredientsList);
-//        post.setProfile(file);
 
         post.setUser(currentUser);
         post.saveInBackground(new SaveCallback() {
@@ -247,7 +216,7 @@ public class DashboardFragment extends Fragment {
             public void done(ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Error while saving", e);
-                    Toast.makeText(getContext(), "Error while saving", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Post save was successful!");
                 mEtRecipeName.setText("");

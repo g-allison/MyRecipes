@@ -42,8 +42,8 @@ public class PostActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
-        tabLayout.addTab(tabLayout.newTab().setText("Ingredients"));
-        tabLayout.addTab(tabLayout.newTab().setText("Instructions"));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.ingredients_tab)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.instructions_tab)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         Post post = (Post) Parcels.unwrap(getIntent().getParcelableExtra("post"));
