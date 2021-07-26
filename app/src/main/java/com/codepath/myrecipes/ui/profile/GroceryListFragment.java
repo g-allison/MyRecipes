@@ -81,9 +81,9 @@ public class GroceryListFragment extends Fragment {
                                 ArrayList<String> ingredients = (ArrayList<String>) post.getIngredients();
                                 Log.d(TAG, "done: ingredients = " + ingredients);
 
-                                if (days.indexOf(dayOfWeek) > 0) {
-                                    week.append(getResources().getString(R.string.double_tab));
-                                }
+//                                if (days.indexOf(dayOfWeek) > 0) {
+//                                    week.append(getResources().getString(R.string.double_tab));
+//                                }
 
                                 for (String ingredient : ingredients) {
                                     week.append(getResources().getString(R.string.bullet));

@@ -28,8 +28,8 @@ public class PostActivity extends AppCompatActivity {
     private TextView mTvDescription;
     private ImageView mIvImage;
 
-    TabLayout tabLayout;
-    ViewPager viewPager;
+    TabLayout mTabLayout;
+    ViewPager mViewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,11 +40,12 @@ public class PostActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        tabLayout = findViewById(R.id.tabLayout);
-        viewPager = findViewById(R.id.viewPager);
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.ingredients_tab)));
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.instructions_tab)));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        mTabLayout = findViewById(R.id.tabLayout);
+        mViewPager = findViewById(R.id.viewPager);
+
+        mTabLayout.addTab(mTabLayout.newTab().setText(getResources().getString(R.string.ingredients_tab)));
+        mTabLayout.addTab(mTabLayout.newTab().setText(getResources().getString(R.string.instructions_tab)));
+        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         Post post = (Post) Parcels.unwrap(getIntent().getParcelableExtra("post"));
         Log.d(TAG, "onCreate: post contents" + post);
@@ -70,13 +71,13 @@ public class PostActivity extends AppCompatActivity {
         intent = new Intent(this, IngredientsFragment.class);
         intent.putExtra("post", post);
 
-        final RecipeTabAdapter tabAdapter = new RecipeTabAdapter(this.getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(tabAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        final RecipeTabAdapter tabAdapter = new RecipeTabAdapter(this.getSupportFragmentManager(), mTabLayout.getTabCount());
+        mViewPager.setAdapter(tabAdapter);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                mViewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override

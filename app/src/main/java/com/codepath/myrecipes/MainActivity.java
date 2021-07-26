@@ -21,6 +21,8 @@ import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String PARAM_INTENT_KEY = "main_activity_params";
+
     final FragmentManager mFragmentManager = getSupportFragmentManager();
     private BottomNavigationView mBottomNavigationView;
 
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     public void postTransition() {
         mFragmentManager.beginTransaction().replace(R.id.flContainer, new HomeFragment()).commit();

@@ -2,7 +2,6 @@ package com.codepath.myrecipes.ui.profile;
 
 import android.content.Context;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,23 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.myrecipes.MainActivity;
 import com.codepath.myrecipes.Post;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.ui.WeeklyMenu;
 import com.codepath.myrecipes.ui.home.PostActivity;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
+import com.codepath.myrecipes.ui.profile.add.AddRecipeActivity;
 import com.parse.ParseQuery;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static androidx.core.app.ActivityCompat.startActivityForResult;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder> {
     public static final String TAG = "ProfileAdapter";

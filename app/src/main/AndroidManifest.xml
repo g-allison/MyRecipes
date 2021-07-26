@@ -13,8 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyRecipes">
-        <activity android:name=".ui.profile.SettingsActivity"></activity>
-        <activity android:name=".ui.profile.AddRecipeActivity" />
+        <activity android:name=".ui.profile.SettingsActivity" />
+        <activity android:name=".ui.profile.add.AddRecipeActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>

@@ -22,5 +22,12 @@ public class ParseApplication extends Application {
                 .server("https://parseapi.back4app.com")
                 .build()
         );
+
+//        Parse.initialize(new Parse.Configuration.Builder(this)
+//                .applicationId("f839acb471114d05a8094ee6d32f7e57")
+//                .server("https://spoonacular.com/food-api")
+//                .build()
+//        );
+
     }
 }
