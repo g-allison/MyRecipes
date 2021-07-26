@@ -39,7 +39,7 @@
  - [X] User can pick recipes from the app using recipe API
    - [X] Connect to recipe API
    - [X] Add search for recipe
-   - [ ] Refactor to incorporate API into rest of app
+   - [ ] Add recipe to WeeklyMenu
  - [ ] People can follow others (auto approve)
 
 
