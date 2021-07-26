@@ -36,9 +36,9 @@
  - [X] Have a main feed where people's recipes are shared in chronological order
 
 ### Week 2:
- - [ ] User can pick recipes from the app using recipe API
-   - [ ] Connect to recipe API
-   - [ ] Add search for recipe to dashboard fragment
+ - [X] User can pick recipes from the app using recipe API
+   - [X] Connect to recipe API
+   - [X] Add search for recipe
    - [ ] Refactor to incorporate API into rest of app
  - [ ] People can follow others (auto approve)
 
