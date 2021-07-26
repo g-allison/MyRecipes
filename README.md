@@ -8,7 +8,7 @@
  - [X] User can create an account
  - [X] User can log in
  - [X] User can enter own recipes
- - [ ] User can pick recipes from the app using recipe API
+ - [X] User can pick recipes from the app using recipe API
  - [X] User is able to generate a weekly menu
  - [X] User is able to generate a weekly shopping list
  - [X] Have a main feed where people's recipes are shared in chronological order
