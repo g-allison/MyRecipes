@@ -27,7 +27,23 @@
      - [ ] Be able to suggest a recipe based off of what a user has in their pantry already
  - [ ] User can scan barcodes of items to upload to pantry
 
-## 2. Screen Archetypes
+## 2. Working Schedule
+### Week 1:
+ - [X] User can create an account
+ - [X] User can log in
+ - [X] User is able to generate a weekly menu
+ - [X] User is able to generate a weekly shopping list
+ - [X] Have a main feed where people's recipes are shared in chronological order
+
+### Week 2:
+ - [ ] User can pick recipes from the app using recipe API
+   - [ ] Connect to recipe API
+   - [ ] Add search for recipe to dashboard fragment
+   - [ ] Refactor to incorporate API into rest of app
+ - [ ] People can follow others (auto approve)
+
+
+## 3. Screen Archetypes
 
  * Login Screen
    * User can login
@@ -55,7 +71,7 @@
  * Messaging
      * User can send and receive recipe cards to individuals and groups
 
-## 3. Navigation
+## 4. Navigation
 
 **Tab Navigation** (Tab to Screen)
 
@@ -83,7 +99,7 @@
      * View recipes posted recently
      * View recipe details
 
-## 4. Schema
+## 5. Schema
 ### Models
 
 Post
@@ -114,5 +130,5 @@ List of network requests by screen
    * (Update/PUT) Update user profile image
    * (Read/GET) Query all recipes from database
 
-## 5. Wireframes
+## 6. Wireframes
  <img src='wireframes.jpg' title='Wireframes' width='' alt='Wireframes' />
