@@ -42,7 +42,7 @@
         android:text="follow"
         android:textSize="8sp" />
 
-    <com.codepath.myrecipes.WrapContentHeightViewPager
+    <com.codepath.myrecipes.models.WrapContentHeightViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

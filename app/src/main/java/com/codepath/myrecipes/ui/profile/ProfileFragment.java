@@ -18,30 +18,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.codepath.myrecipes.Post;
+import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
-import com.codepath.myrecipes.ui.WeeklyMenu;
-import com.codepath.myrecipes.ui.home.PostActivity;
-import com.codepath.myrecipes.ui.home.PostsAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.parceler.Parcels;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileFragment extends Fragment {
@@ -136,41 +127,44 @@ public class ProfileFragment extends Fragment {
                 case GALLERY_REQUEST:
                     Uri selectedImage = data.getData();
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
-                        Glide.with(view.getContext())
-                                .load(bitmap)
-                                .circleCrop()
-                                .into(mIvProfilePicture);
-                        setUser(bitmap);
-
-
-                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG,100, byteArrayOutputStream);
-                        byte[] imageByte = byteArrayOutputStream.toByteArray();
-                        ParseFile parseFile = new ParseFile(getResources().getString(R.string.image_file), imageByte);
-                        Log.d(TAG, "onActivityResult: parseFile" + parseFile);
-
-                        overallPost.setProfile(parseFile);
-
-                        Log.d(TAG, "onActivityResult: file = " + bitmap.toString());
-
-                        overallPost.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e != null) {
-                                    Log.e(TAG, "Error while saving", e);
-                                    Toast.makeText(getContext(), getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
-                                }
-                                Log.d(TAG, "done: file" + parseFile.getUrl());
-                            }
-                        });
-
+                        convertToParse(selectedImage);
                     } catch (IOException e) {
-                        Log.i("TAG", "Some exception " + e);
+                        e.printStackTrace();
                     }
-                    break;
+
             }
         }
+    }
+
+    private void convertToParse(Uri selectedImage) throws IOException {
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+        Glide.with(view.getContext())
+                .load(bitmap)
+                .circleCrop()
+                .into(mIvProfilePicture);
+        setUser(bitmap);
+
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, byteArrayOutputStream);
+        byte[] imageByte = byteArrayOutputStream.toByteArray();
+        ParseFile parseFile = new ParseFile(getResources().getString(R.string.image_file), imageByte);
+        Log.d(TAG, "onActivityResult: parseFile" + parseFile);
+
+        overallPost.setProfile(parseFile);
+
+        Log.d(TAG, "onActivityResult: file = " + bitmap.toString());
+
+        overallPost.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving", e);
+                    Toast.makeText(getContext(), getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
+                }
+                Log.d(TAG, "done: file" + parseFile.getUrl());
+            }
+        });
     }
 
     private void setUser(Bitmap bitmap) {

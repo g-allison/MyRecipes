@@ -24,8 +24,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.codepath.myrecipes.R;
-import com.codepath.myrecipes.ui.profile.add.Recipe;
-import com.codepath.myrecipes.ui.WeeklyMenu;
+import com.codepath.myrecipes.models.Recipe;
+import com.codepath.myrecipes.models.WeeklyMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,23 +34,21 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.security.AccessController.getContext;
-
 public class AddRecipeActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TAG = "AddRecipeActivity";
+    public static final int COL_NUM = 2;
 
     private TextView mDayName;
 
-    //
-    private List<Recipe> lstRecipe = new ArrayList<>();
-    private List<Recipe> searchRecipe;
-    private JSONArray testArr;
-    private ImageButton searchBtn;
-//    private Button breakfastBtn,lunchBtn,dinnerBtn;
-    private TextView searchTv, emptyView;
-    private RecyclerView myrv;
-    private ProgressBar progressBar;
+    private List<Recipe> mRecipe = new ArrayList<>();
+    private List<Recipe> mSearchRecipe;
+    private JSONArray mTestArr;
+    private ImageButton mSearchBtn;
+    private TextView mSearchTv;
+    private TextView mEmptyView;
+    private RecyclerView mRecyclerView;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,31 +56,31 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_add_recipe);
 
 //        mDayName = findViewById(R.id.tvDayName);
-
 //        WeeklyMenu day = getIntent().getParcelableExtra("recipe card");
 //        mDayName.setText(day.getDay());
 
+        mEmptyView = findViewById(R.id.empty_view2);
+        mProgressBar = findViewById(R.id.progressbar2);
+        mRecyclerView = findViewById(R.id.recyclerview);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), COL_NUM));
 
-        emptyView = findViewById(R.id.empty_view2);
-        progressBar = findViewById(R.id.progressbar2);
-        myrv = findViewById(R.id.recyclerview);
-        myrv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         getRandomRecipes();
-        searchTv = findViewById(R.id.home_search_et);
-        searchBtn = findViewById(R.id.home_search_btn);
-        searchBtn.setOnClickListener(this);
-        searchTv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+        mSearchTv = findViewById(R.id.home_search_et);
+        mSearchBtn = findViewById(R.id.home_search_btn);
+        mSearchBtn.setOnClickListener(this);
+        mSearchTv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_SEARCH){
                     if(!v.getText().toString().equals("")) {
-                        emptyView.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.VISIBLE);
-                        myrv.setAlpha(0);
+                        mEmptyView.setVisibility(View.GONE);
+                        mProgressBar.setVisibility(View.VISIBLE);
+                        mRecyclerView.setAlpha(0);
                         searchRecipe(v.getText().toString());
                     }
                     else
-                        Toast.makeText(getApplicationContext(), "Type something...", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.type_something), Toast.LENGTH_LONG).show();
                 }
                 return false;
             }
@@ -91,8 +89,8 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void searchRecipe(String search) {
-        searchRecipe = new ArrayList<Recipe>();
-        String URL="https://api.spoonacular.com/recipes/search?query=" + search + "&number=30&instructionsRequired=true&apiKey=f839acb471114d05a8094ee6d32f7e57";
+        mSearchRecipe = new ArrayList<Recipe>();
+        final String URL = "https://api.spoonacular.com/recipes/search?query=" + search + "&number=30&instructionsRequired=true&apiKey=f839acb471114d05a8094ee6d32f7e57";
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -102,24 +100,24 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            testArr = (JSONArray) response.get("results");
-                            Log.i("the search res is:", String.valueOf(testArr));
-                            for (int i = 0; i < testArr.length(); i++) {
+                            mTestArr = (JSONArray) response.get("results");
+                            Log.i("the search res is:", String.valueOf(mTestArr));
+                            for (int i = 0; i < mTestArr.length(); i++) {
                                 JSONObject jsonObject1;
-                                jsonObject1 = testArr.getJSONObject(i);
-                                searchRecipe.add(new Recipe(jsonObject1.optString("id"),jsonObject1.optString("title"), "https://spoonacular.com/recipeImages/" + jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
+                                jsonObject1 = mTestArr.getJSONObject(i);
+                                mSearchRecipe.add(new Recipe(jsonObject1.optString("id"),jsonObject1.optString("title"), "https://spoonacular.com/recipeImages/" + jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
                             }
-                            progressBar.setVisibility(View.GONE);
-                            if(searchRecipe.isEmpty()){
-                                myrv.setAlpha(0);
-                                emptyView.setVisibility(View.VISIBLE);
+                            mProgressBar.setVisibility(View.GONE);
+                            if (mSearchRecipe.isEmpty()) {
+                                mRecyclerView.setAlpha(0);
+                                mEmptyView.setVisibility(View.VISIBLE);
                             }
-                            else{
-                                emptyView.setVisibility(View.GONE);
-                                RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(getApplicationContext(), searchRecipe);
-                                myrv.setAdapter(myAdapter);
-                                myrv.setItemAnimator(new DefaultItemAnimator());
-                                myrv.setAlpha(1);
+                            else {
+                                mEmptyView.setVisibility(View.GONE);
+                                RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(getApplicationContext(), mSearchRecipe);
+                                mRecyclerView.setAdapter(myAdapter);
+                                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                                mRecyclerView.setAlpha(1);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -137,7 +135,8 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void getRandomRecipes() {
-        String URL = " https://api.spoonacular.com/recipes/random?number=30&instructionsRequired=true&apiKey=f839acb471114d05a8094ee6d32f7e57";
+        final String URL = " https://api.spoonacular.com/recipes/random?number=30&instructionsRequired=true&" +
+                "apiKey=f839acb471114d05a8094ee6d32f7e57";
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -147,17 +146,17 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            testArr = (JSONArray) response.get("recipes");
-                            Log.i("the res is:", String.valueOf(testArr));
-                            for (int i = 0; i < testArr.length(); i++) {
+                            mTestArr = (JSONArray) response.get("recipes");
+                            Log.i("the res is:", String.valueOf(mTestArr));
+                            for (int i = 0; i < mTestArr.length(); i++) {
                                 JSONObject jsonObject1;
-                                jsonObject1 = testArr.getJSONObject(i);
-                                lstRecipe.add(new Recipe(jsonObject1.optString("id"),jsonObject1.optString("title"), jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
+                                jsonObject1 = mTestArr.getJSONObject(i);
+                                mRecipe.add(new Recipe(jsonObject1.optString("id"),jsonObject1.optString("title"), jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
                             }
-                            progressBar.setVisibility(View.GONE);
-                            RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(getApplicationContext(), lstRecipe);
-                            myrv.setAdapter(myAdapter);
-                            myrv.setItemAnimator(new DefaultItemAnimator());
+                            mProgressBar.setVisibility(View.GONE);
+                            RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(getApplicationContext(), mRecipe);
+                            mRecyclerView.setAdapter(myAdapter);
+                            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
                         } catch (JSONException e) {
@@ -169,9 +168,9 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.i("the res is error:", error.toString());
-                        progressBar.setVisibility(View.GONE);
-                        myrv.setAlpha(0);
-                        emptyView.setVisibility(View.VISIBLE);
+                        mProgressBar.setVisibility(View.GONE);
+                        mRecyclerView.setAlpha(0);
+                        mEmptyView.setVisibility(View.VISIBLE);
                     }
                 }
         );
@@ -180,20 +179,17 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        Log.d(TAG, "onClick not sure what happens here");
-
         try {
             InputMethodManager imm = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.hideSoftInputFromWindow(getApplicationContext().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         } catch (Exception e) {
         }
-        if(!searchTv.getText().toString().toString().equals("")) {
-            progressBar.setVisibility(View.VISIBLE);
-            myrv.setAlpha(0);
-            searchRecipe(searchTv.getText().toString());
+        if(!mSearchTv.getText().toString().toString().equals("")) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            mRecyclerView.setAlpha(0);
+            searchRecipe(mSearchTv.getText().toString());
         }
         else
-            Toast.makeText(getApplicationContext(), "Type something...", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.type_something), Toast.LENGTH_LONG).show();
     }
 
 }

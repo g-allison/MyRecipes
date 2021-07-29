@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codepath.myrecipes.R;
+
 import java.util.List;
 
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
@@ -31,8 +33,9 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Grab the item at the position
         String item = items.get(position);
+
         // Bind the iem into the specified view holder
-        holder.bind((position + 1) + ". " + item);
+        holder.bind((position + 1) + holder.itemView.getResources().getString(R.string.period) + item);
     }
 
     @Override

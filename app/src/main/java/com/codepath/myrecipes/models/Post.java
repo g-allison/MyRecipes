@@ -1,4 +1,4 @@
-package com.codepath.myrecipes;
+package com.codepath.myrecipes.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;

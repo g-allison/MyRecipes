@@ -1,4 +1,4 @@
-package com.codepath.myrecipes;
+package com.codepath.myrecipes.models;
 
 import android.content.Context;
 import android.util.AttributeSet;

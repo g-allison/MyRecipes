@@ -1,4 +1,4 @@
-package com.codepath.myrecipes;
+package com.codepath.myrecipes.ui.postActivity;
 
 import android.os.Bundle;
 
@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.codepath.myrecipes.R;
+import com.codepath.myrecipes.models.Post;
 
 import org.parceler.Parcels;
 

@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.myrecipes.R;
-import com.codepath.myrecipes.ui.WeeklyMenu;
+import com.codepath.myrecipes.models.WeeklyMenu;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

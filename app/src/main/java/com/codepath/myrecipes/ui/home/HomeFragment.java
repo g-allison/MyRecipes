@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.codepath.myrecipes.Post;
+import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
+import com.codepath.myrecipes.ui.postActivity.PostActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

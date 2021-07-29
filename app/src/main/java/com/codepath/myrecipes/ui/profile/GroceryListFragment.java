@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.codepath.myrecipes.Post;
+import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
-import com.codepath.myrecipes.ui.WeeklyMenu;
+import com.codepath.myrecipes.models.WeeklyMenu;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -81,16 +81,12 @@ public class GroceryListFragment extends Fragment {
                                 ArrayList<String> ingredients = (ArrayList<String>) post.getIngredients();
                                 Log.d(TAG, "done: ingredients = " + ingredients);
 
-//                                if (days.indexOf(dayOfWeek) > 0) {
-//                                    week.append(getResources().getString(R.string.double_tab));
-//                                }
 
                                 for (String ingredient : ingredients) {
                                     week.append(getResources().getString(R.string.bullet));
                                     week.append(ingredient);
                                     week.append(getResources().getString(R.string.single_tab));
                                 }
-//                                week.append(ingredients);
 
                                 Log.d(TAG, "week now: " + week);
                                 mTvGroceries.setText(week.toString());

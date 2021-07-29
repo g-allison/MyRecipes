@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".InstructionsFragment">
+        tools:context=".ui.postActivity.InstructionsFragment">
 
         <ImageView
             android:id="@+id/ivImage"
@@ -31,7 +31,7 @@
             android:textStyle="bold"
             tools:text="Chicken fettuccine" />
 
-        <com.codepath.myrecipes.WrapContentHeightViewPager
+        <com.codepath.myrecipes.models.WrapContentHeightViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

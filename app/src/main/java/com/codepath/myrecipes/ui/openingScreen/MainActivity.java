@@ -1,4 +1,4 @@
-package com.codepath.myrecipes;
+package com.codepath.myrecipes.ui.openingScreen;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.ui.home.HomeFragment;
 import com.codepath.myrecipes.ui.compose.DashboardFragment;
 import com.codepath.myrecipes.ui.profile.ProfileFragment;

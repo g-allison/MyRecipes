@@ -1,8 +1,9 @@
-package com.codepath.myrecipes;
+package com.codepath.myrecipes.models;
 
 import android.app.Application;
 
-import com.codepath.myrecipes.ui.WeeklyMenu;
+import com.codepath.myrecipes.models.Post;
+import com.codepath.myrecipes.models.WeeklyMenu;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -22,12 +23,6 @@ public class ParseApplication extends Application {
                 .server("https://parseapi.back4app.com")
                 .build()
         );
-
-//        Parse.initialize(new Parse.Configuration.Builder(this)
-//                .applicationId("f839acb471114d05a8094ee6d32f7e57")
-//                .server("https://spoonacular.com/food-api")
-//                .build()
-//        );
 
     }
 }

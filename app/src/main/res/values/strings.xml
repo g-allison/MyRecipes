@@ -16,8 +16,9 @@
     <string name="weekly_menu_tab">Weekly Menu</string>
     <string name="my_recipes_tab">My Recipes</string>
     <string name="shopping_list_tab">Shopping List</string>
-    <string name="new_account_created">"New account created!"</string>
-    <string name="matching_passwords">"passwords do not match"</string>
+    <string name="new_account_created">New account created!</string>
+    <string name="matching_passwords">passwords do not match</string>
+    <string name="type_something">type something</string>
 
 
 

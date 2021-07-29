@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".ParseApplication"
+        android:name=".models.ParseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,18 +15,18 @@
         android:theme="@style/Theme.MyRecipes">
         <activity android:name=".ui.profile.SettingsActivity" />
         <activity android:name=".ui.profile.add.AddRecipeActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".ui.openingScreen.SignupActivity" />
+        <activity android:name=".ui.openingScreen.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name=".ui.openingScreen.MainActivity"
             android:windowSoftInputMode="adjustPan"
         />
-        <activity android:name=".ui.home.PostActivity" />
+        <activity android:name=".ui.postActivity.PostActivity" />
     </application>
 
 </manifest>

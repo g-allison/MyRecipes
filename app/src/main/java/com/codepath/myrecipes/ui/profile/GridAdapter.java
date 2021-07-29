@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.myrecipes.Post;
+import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
 import com.parse.ParseFile;
 

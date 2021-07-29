@@ -1,4 +1,4 @@
-package com.codepath.myrecipes;
+package com.codepath.myrecipes.ui.openingScreen;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.codepath.myrecipes.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -83,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e != null) {
-                    // TODO: better error handling
                     Toast.makeText(LoginActivity.this, "account does not exist", Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "issue with login", e);
                     return;

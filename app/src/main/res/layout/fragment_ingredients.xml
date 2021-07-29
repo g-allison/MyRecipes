@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".IngredientsFragment">
+    tools:context=".ui.postActivity.IngredientsFragment">
 
     <TextView
         android:id="@+id/tvIngredients"

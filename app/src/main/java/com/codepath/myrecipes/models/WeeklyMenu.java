@@ -1,6 +1,6 @@
-package com.codepath.myrecipes.ui;
+package com.codepath.myrecipes.models;
 
-import com.codepath.myrecipes.Post;
+import com.codepath.myrecipes.models.Post;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;

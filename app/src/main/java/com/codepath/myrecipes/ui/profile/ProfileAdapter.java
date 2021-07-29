@@ -14,10 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.myrecipes.Post;
+import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
-import com.codepath.myrecipes.ui.WeeklyMenu;
-import com.codepath.myrecipes.ui.home.PostActivity;
+import com.codepath.myrecipes.models.WeeklyMenu;
+import com.codepath.myrecipes.ui.postActivity.PostActivity;
 import com.codepath.myrecipes.ui.profile.add.AddRecipeActivity;
 import com.parse.ParseQuery;
 
@@ -127,15 +127,15 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(mContext, "deleting...", Toast.LENGTH_SHORT).show();
-//                    dayOfWeek.getRecipe().deleteInBackground(e1 -> {
-//                        if (e1 == null) {
-//                            Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
-//                        }else{
-//                            //Something went wrong while deleting the Object
-//                            Toast.makeText(mContext, "Error: "+ e1.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                    dayOfWeek.getRecipe().setObjectId("");
+                    dayOfWeek.getRecipe().deleteInBackground(e1 -> {
+                        if (e1 == null) {
+                            Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
+                        }else{
+                            //Something went wrong while deleting the Object
+                            Toast.makeText(mContext, "Error: "+ e1.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    dayOfWeek.getRecipe().setObjectId("");
                 }
             });
         }

@@ -23,16 +23,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.myrecipes.MainActivity;
-import com.codepath.myrecipes.Post;
+import com.codepath.myrecipes.ui.openingScreen.MainActivity;
+import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -172,8 +169,6 @@ public class DashboardFragment extends Fragment {
                     // clear edit text box
                     mEtIngredient.setText("");
                     mRvIngredients.scrollToPosition(mIngredientsList.size() - 1);
-                } else {
-                    Toast.makeText(getContext(), "field is empty", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }

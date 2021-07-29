@@ -1,4 +1,4 @@
-package com.codepath.myrecipes.ui.home;
+package com.codepath.myrecipes.ui.postActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.codepath.myrecipes.IngredientsFragment;
-import com.codepath.myrecipes.InstructionsFragment;
-import com.codepath.myrecipes.Post;
+import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.databinding.ActivityPostBinding;
 import com.google.android.material.tabs.TabLayout;

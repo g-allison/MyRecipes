@@ -8,7 +8,7 @@
     android:id="@+id/relative_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".MainActivity">
+    tools:context=".ui.openingScreen.MainActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvName"
