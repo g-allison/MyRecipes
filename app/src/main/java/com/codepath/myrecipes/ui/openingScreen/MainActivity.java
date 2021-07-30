@@ -9,6 +9,7 @@ import android.view.View;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.ui.home.HomeFragment;
 import com.codepath.myrecipes.ui.compose.DashboardFragment;
+import com.codepath.myrecipes.ui.profile.OtherProfileFragment;
 import com.codepath.myrecipes.ui.profile.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -84,4 +85,14 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager.beginTransaction().replace(R.id.flContainer, new HomeFragment()).commit();
         mBottomNavigationView.setSelectedItemId(R.id.navigation_home);
     }
+
+    public void profileTransition(ParseUser user) {
+        mFragmentManager.beginTransaction().replace(R.id.flContainer, new OtherProfileFragment(user)).commit();
+    }
+
+    public void personalProfileTransition() {
+        mFragmentManager.beginTransaction().replace(R.id.flContainer, new ProfileFragment()).commit();
+        mBottomNavigationView.setSelectedItemId(R.id.navigation_profile);
+    }
+
 }

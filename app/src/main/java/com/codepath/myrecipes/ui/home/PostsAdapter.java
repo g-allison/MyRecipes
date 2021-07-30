@@ -1,6 +1,7 @@
 package com.codepath.myrecipes.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
+import com.codepath.myrecipes.ui.openingScreen.MainActivity;
+import com.codepath.myrecipes.ui.postActivity.PostActivity;
+import com.parse.ParseUser;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -75,13 +81,24 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             mRlContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onPostListener.onPostClick(getAdapterPosition());
+//                    onPostListener.onPostClick(getAdapterPosition());
+                    onPostListener.onPostClick(post.getUser());
+
                 }
             });
 
             // bind data to the view
             mTvDescription.setText(post.getDescription());
             mTvUsername.setText(itemView.getResources().getString(R.string.ampersand) + post.getUser().getUsername());
+
+            mIvImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, PostActivity.class);
+                    intent.putExtra("post", Parcels.wrap(post));
+                    mContext.startActivity(intent);
+                }
+            });
 
             if (post.getImage() != null) {
                 mIvImage.setVisibility(View.VISIBLE);
@@ -96,6 +113,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     }
 
     public interface OnPostListener{
-        void onPostClick(int position);
+        void onPostClick(ParseUser user);
     }
 }

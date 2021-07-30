@@ -15,10 +15,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
+import com.codepath.myrecipes.ui.openingScreen.MainActivity;
 import com.codepath.myrecipes.ui.postActivity.PostActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -98,10 +100,23 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
         });
     }
 
+    // correct on click that goes to post activity
+//    @Override
+//    public void onPostClick(int position) {
+//        Intent intent = new Intent(getContext(), PostActivity.class);
+//        intent.putExtra("post", Parcels.wrap(mAllPosts.get(position)));
+//        startActivity(intent);
+//    }
+
+
+    // testing for user activity
     @Override
-    public void onPostClick(int position) {
-        Intent intent = new Intent(getContext(), PostActivity.class);
-        intent.putExtra("post", Parcels.wrap(mAllPosts.get(position)));
-        startActivity(intent);
+    public void onPostClick(ParseUser user) {
+        if (!user.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+            ((MainActivity)getActivity()).profileTransition(user);
+        } else {
+            ((MainActivity)getActivity()).personalProfileTransition();
+
+        }
     }
 }

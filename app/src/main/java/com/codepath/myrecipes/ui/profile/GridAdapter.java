@@ -45,16 +45,18 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         holder.bind(post);
     }
 
+    @Override
+    public int getItemCount() {
+        return mPosts.size();
+    }
+
+
     // Clean all elements of the recycler
     public void clear() {
         mPosts.clear();
         notifyDataSetChanged();
     }
 
-    @Override
-    public int getItemCount() {
-        return mPosts.size();
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mIvGrid;

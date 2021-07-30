@@ -43,7 +43,7 @@ public class ProfileFragment extends Fragment {
     private ImageView mIvProfilePicture;
     private ImageView mIvSettings;
     private TextView mTvUsername;
-    private Button mBtnFollow;
+    private Button mBtnViewProfile;
     private View view;
 
     private Post overallPost;
@@ -66,8 +66,9 @@ public class ProfileFragment extends Fragment {
         this.view = view;
         mIvProfilePicture = view.findViewById(R.id.ivProfilePicture);
         mTvUsername = view.findViewById(R.id.tvUsername);
-        mBtnFollow = view.findViewById(R.id.btnFollow);
+//        mBtnFollow = view.findViewById(R.id.btnFollow);
         mIvSettings = view.findViewById(R.id.ivSettings);
+        mBtnViewProfile = view.findViewById(R.id.btnViewProfile);
 
         overallPost = new Post();
 

@@ -32,14 +32,14 @@
         tools:src="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/btnFollow"
+        android:id="@+id/btnViewProfile"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_below="@+id/tvUsername"
         android:layout_marginStart="28dp"
         android:layout_marginTop="-2dp"
         android:layout_toEndOf="@+id/ivProfilePicture"
-        android:text="follow"
+        android:text="view profile"
         android:textSize="8sp" />
 
     <com.codepath.myrecipes.models.WrapContentHeightViewPager
