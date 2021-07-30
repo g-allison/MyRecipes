@@ -18,13 +18,17 @@ import com.bumptech.glide.Glide;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.models.Post;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class OtherProfileFragment extends MyRecipesFragment {
@@ -34,10 +38,8 @@ public class OtherProfileFragment extends MyRecipesFragment {
     private ImageView mIvProfileImage;
     private ParseUser mUser;
     private Button mBtnFollow;
+    private Button mBtnUnfollow;
     private View view;
-
-    private TextView mFollow;
-    private TextView mUnfollow;
 
     public OtherProfileFragment() {
         // required empty public constructor
@@ -62,12 +64,9 @@ public class OtherProfileFragment extends MyRecipesFragment {
         mIvProfileImage = view.findViewById(R.id.ivProfilePicture);
         mTvUsername = view.findViewById(R.id.tvUsername);
         mBtnFollow = view.findViewById(R.id.btnFollow);
+        mBtnUnfollow = view.findViewById(R.id.btnUnfollow);
 
-        // ####
-//        mFollow = view.findViewById(R.id.follow);
-//        mUnfollow = view.findViewById(R.id.unfollow);
-
-
+        followingVisibility();
 
         // creating posts recycler view
         mPosts = new ArrayList<>();
@@ -78,11 +77,114 @@ public class OtherProfileFragment extends MyRecipesFragment {
         mBtnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "followed!", Toast.LENGTH_SHORT).show();
+                follow();
+            }
+        });
+
+        mBtnUnfollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unfollow();
             }
         });
 
         this.view = view;
+    }
+
+    private void followingVisibility() {
+        List<ParseUser> nowFollowing = ParseUser.getCurrentUser().getList("following");
+        Log.d(TAG, "onViewCreated: nowFollowing " + nowFollowing);
+        if (nowFollowing != null) {
+            boolean isFollowing = false;
+
+            for (ParseUser user : nowFollowing) {
+                try {
+                    user.fetchIfNeeded();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Log.d(TAG, "onViewCreated: user.getUsername() " + user.getUsername());
+                Log.d(TAG, "onViewCreated: mUser.getUsername() " + mUser.getUsername());
+                if (user.getUsername().equals(mUser.getUsername())) {
+                    isFollowing = true;
+                }
+            }
+
+            if (isFollowing) {
+                mBtnFollow.setVisibility(View.GONE);
+                mBtnUnfollow.setVisibility(View.VISIBLE);
+            } else {
+                mBtnFollow.setVisibility(View.VISIBLE);
+                mBtnUnfollow.setVisibility(View.GONE);
+            }
+        } else {
+            mBtnUnfollow.setVisibility(View.GONE);
+        }
+    }
+
+    private void follow() {
+        Toast.makeText(getActivity(), "followed!", Toast.LENGTH_SHORT).show();
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        List<ParseUser> following = new ArrayList<>();
+        if (currentUser.get("following") != null) {
+            // user already follows some
+            following.addAll(currentUser.getList("following"));
+            // currentUser.get("following");
+        }
+        following.add(mUser);
+
+        Log.d(TAG, "added user " + mUser.getUsername());
+        currentUser.put("following", following);
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving", e);
+                    Toast.makeText(getContext(), getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
+                }
+                Log.i(TAG, "Post save was successful!");
+            }
+        });
+        mBtnFollow.setVisibility(View.GONE);
+        mBtnUnfollow.setVisibility(View.VISIBLE);
+        Log.d(TAG, "currentUser now follows: " + currentUser.get("following"));
+    }
+
+    private void unfollow() {
+        Toast.makeText(getActivity(), "unfollowed!", Toast.LENGTH_SHORT).show();
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        List<ParseUser> following = new ArrayList<>(currentUser.getList("following"));
+
+        for (int i = 0; i < following.size(); i++) {
+            ParseUser user = following.get(i);
+            try {
+                user.fetchIfNeeded();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (user.getUsername().equals(mUser.getUsername())) {
+                following.remove(user);
+                i--;
+            }
+
+        }
+        Log.d(TAG, "removed user " + mUser.getUsername());
+        Log.d(TAG, "now following: " + following);
+        currentUser.put("following", following);
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving", e);
+                    Toast.makeText(getContext(), getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
+                }
+                Log.i(TAG, "Post save was successful!");
+            }
+        });
+        mBtnFollow.setVisibility(View.VISIBLE);
+        mBtnUnfollow.setVisibility(View.GONE);
+        Log.d(TAG, "currentUser now follows: " + currentUser.get("following"));
+
     }
 
     @Override

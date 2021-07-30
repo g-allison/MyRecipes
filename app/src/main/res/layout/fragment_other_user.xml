@@ -23,9 +23,20 @@
         android:layout_height="30dp"
         android:layout_below="@+id/tvUsername"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="-2dp"
+        android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/ivProfilePicture"
         android:text="follow"
+        android:textSize="8sp" />
+
+    <Button
+        android:id="@+id/btnUnfollow"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/tvUsername"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/ivProfilePicture"
+        android:text="unfollow"
         android:textSize="8sp" />
 
     <ImageView
