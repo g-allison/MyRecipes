@@ -100,14 +100,6 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
         });
     }
 
-    // correct on click that goes to post activity
-//    @Override
-//    public void onPostClick(int position) {
-//        Intent intent = new Intent(getContext(), PostActivity.class);
-//        intent.putExtra("post", Parcels.wrap(mAllPosts.get(position)));
-//        startActivity(intent);
-//    }
-
 
     // testing for user activity
     @Override
@@ -116,7 +108,6 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
             ((MainActivity)getActivity()).profileTransition(user);
         } else {
             ((MainActivity)getActivity()).personalProfileTransition();
-
         }
     }
 }

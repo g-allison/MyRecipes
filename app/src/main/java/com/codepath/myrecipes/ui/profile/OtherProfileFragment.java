@@ -36,6 +36,9 @@ public class OtherProfileFragment extends MyRecipesFragment {
     private Button mBtnFollow;
     private View view;
 
+    private TextView mFollow;
+    private TextView mUnfollow;
+
     public OtherProfileFragment() {
         // required empty public constructor
     }
@@ -59,6 +62,12 @@ public class OtherProfileFragment extends MyRecipesFragment {
         mIvProfileImage = view.findViewById(R.id.ivProfilePicture);
         mTvUsername = view.findViewById(R.id.tvUsername);
         mBtnFollow = view.findViewById(R.id.btnFollow);
+
+        // ####
+//        mFollow = view.findViewById(R.id.follow);
+//        mUnfollow = view.findViewById(R.id.unfollow);
+
+
 
         // creating posts recycler view
         mPosts = new ArrayList<>();

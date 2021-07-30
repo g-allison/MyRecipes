@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
-import com.codepath.myrecipes.ui.openingScreen.MainActivity;
 import com.codepath.myrecipes.ui.postActivity.PostActivity;
 import com.parse.ParseUser;
 
@@ -66,7 +65,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private RelativeLayout mRlContainer;
         private ImageView mIvImage;
 
-        OnPostListener onPostListener;
+        OnPostListener mOnPostListener;
 
         public ViewHolder(@NonNull View itemView, OnPostListener onPostListener) {
             super(itemView);
@@ -74,7 +73,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             mTvDescription = itemView.findViewById(R.id.tvDescription);
             mIvImage = itemView.findViewById(R.id.ivImage);
             mRlContainer = itemView.findViewById(R.id.rlContainer);
-            this.onPostListener = onPostListener;
+            this.mOnPostListener = onPostListener;
         }
 
         public void bind(Post post) {
@@ -82,7 +81,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
 //                    onPostListener.onPostClick(getAdapterPosition());
-                    onPostListener.onPostClick(post.getUser());
+                    mOnPostListener.onPostClick(post.getUser());
 
                 }
             });
@@ -112,7 +111,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         }
     }
 
-    public interface OnPostListener{
+    public interface OnPostListener {
         void onPostClick(ParseUser user);
     }
 }

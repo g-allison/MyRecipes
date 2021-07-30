@@ -25,7 +25,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.models.Recipe;
-import com.codepath.myrecipes.models.WeeklyMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,9 +43,9 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
     private List<Recipe> mRecipe = new ArrayList<>();
     private List<Recipe> mSearchRecipe;
     private JSONArray mTestArr;
-    private ImageButton mSearchBtn;
-    private TextView mSearchTv;
-    private TextView mEmptyView;
+    private ImageButton mBtnSearch;
+    private TextView mTvSearch;
+    private TextView mTvEmpty;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
 
@@ -59,28 +58,29 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
 //        WeeklyMenu day = getIntent().getParcelableExtra("recipe card");
 //        mDayName.setText(day.getDay());
 
-        mEmptyView = findViewById(R.id.empty_view2);
+        mTvEmpty = findViewById(R.id.empty_view2);
         mProgressBar = findViewById(R.id.progressbar2);
         mRecyclerView = findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), COL_NUM));
 
         getRandomRecipes();
 
-        mSearchTv = findViewById(R.id.home_search_et);
-        mSearchBtn = findViewById(R.id.home_search_btn);
-        mSearchBtn.setOnClickListener(this);
-        mSearchTv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mTvSearch = findViewById(R.id.home_search_et);
+        mBtnSearch = findViewById(R.id.home_search_btn);
+        mBtnSearch.setOnClickListener(this);
+        mTvSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH){
-                    if(!v.getText().toString().equals("")) {
-                        mEmptyView.setVisibility(View.GONE);
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (!v.getText().toString().equals("")) {
+                        mTvEmpty.setVisibility(View.GONE);
                         mProgressBar.setVisibility(View.VISIBLE);
                         mRecyclerView.setAlpha(0);
                         searchRecipe(v.getText().toString());
                     }
-                    else
+                    else {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.type_something), Toast.LENGTH_LONG).show();
+                    }
                 }
                 return false;
             }
@@ -89,7 +89,7 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void searchRecipe(String search) {
-        mSearchRecipe = new ArrayList<Recipe>();
+        mSearchRecipe = new ArrayList<>();
         final String URL = "https://api.spoonacular.com/recipes/search?query=" + search + "&number=30&instructionsRequired=true&apiKey=f839acb471114d05a8094ee6d32f7e57";
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -110,11 +110,11 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
                             mProgressBar.setVisibility(View.GONE);
                             if (mSearchRecipe.isEmpty()) {
                                 mRecyclerView.setAlpha(0);
-                                mEmptyView.setVisibility(View.VISIBLE);
+                                mTvEmpty.setVisibility(View.VISIBLE);
                             }
                             else {
-                                mEmptyView.setVisibility(View.GONE);
-                                RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(getApplicationContext(), mSearchRecipe);
+                                mTvEmpty.setVisibility(View.GONE);
+                                AddRecyclerViewAdapter myAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mSearchRecipe);
                                 mRecyclerView.setAdapter(myAdapter);
                                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                                 mRecyclerView.setAlpha(1);
@@ -154,7 +154,7 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
                                 mRecipe.add(new Recipe(jsonObject1.optString("id"),jsonObject1.optString("title"), jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
                             }
                             mProgressBar.setVisibility(View.GONE);
-                            RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(getApplicationContext(), mRecipe);
+                            AddRecyclerViewAdapter myAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipe);
                             mRecyclerView.setAdapter(myAdapter);
                             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -170,7 +170,7 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
                         Log.i("the res is error:", error.toString());
                         mProgressBar.setVisibility(View.GONE);
                         mRecyclerView.setAlpha(0);
-                        mEmptyView.setVisibility(View.VISIBLE);
+                        mTvEmpty.setVisibility(View.VISIBLE);
                     }
                 }
         );
@@ -183,10 +183,10 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
             InputMethodManager imm = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         } catch (Exception e) {
         }
-        if(!mSearchTv.getText().toString().toString().equals("")) {
+        if(!mTvSearch.getText().toString().toString().equals("")) {
             mProgressBar.setVisibility(View.VISIBLE);
             mRecyclerView.setAlpha(0);
-            searchRecipe(mSearchTv.getText().toString());
+            searchRecipe(mTvSearch.getText().toString());
         }
         else
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.type_something), Toast.LENGTH_LONG).show();

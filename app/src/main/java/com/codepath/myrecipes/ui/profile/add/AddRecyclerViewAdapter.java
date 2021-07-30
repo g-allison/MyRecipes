@@ -24,45 +24,46 @@ import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.models.Recipe;
 import com.codepath.myrecipes.models.WeeklyMenu;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class AddRecyclerViewAdapter extends RecyclerView.Adapter<AddRecyclerViewAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<Recipe> mData;
 
-    public static final String TAG = "RecyclerViewAdapter";
+    public static final String TAG = "AddRecyclerViewAdapter";
 
     private WeeklyMenu mWeek;
 
-    public RecyclerViewAdapter(Context mContext, List<Recipe> mData) {
+    public AddRecyclerViewAdapter(Context mContext, List<Recipe> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
 
+    @NotNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view ;
+    public MyViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         LayoutInflater mInflater = LayoutInflater.from(mContext);
-        view = mInflater.inflate(R.layout.cardview_item_recipe,parent,false);
+        View view = mInflater.inflate(R.layout.cardview_item_recipe,parent,false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.tv_recipe_title.setText(mData.get(position).getTitle());
-        holder.tv_amount_of_dishes.setText(Integer.toString(mData.get(position).getAmountOfDishes()) );
-        holder.tv_ready_in_mins.setText( Integer.toString(mData.get(position).getReadyInMins()) );
+        holder.mTvRecipeTitle.setText(mData.get(position).getTitle());
+        holder.mTvAmountOfDishes.setText(Integer.toString(mData.get(position).getAmountOfDishes()) );
+        holder.mTvReadyIn.setText( Integer.toString(mData.get(position).getReadyInMins()) );
         if (mData.get(position).getThumbnail().isEmpty()) {
-            holder.img_recipe_thumbnail.setImageResource(R.drawable.nopicture);
+            holder.mIvRecipeImage.setImageResource(R.drawable.nopicture);
         } else{
             Glide.with(mContext)
                     .load(mData.get(position).getThumbnail())
                     .centerCrop()
-                    .into(holder.img_recipe_thumbnail);
+                    .into(holder.mIvRecipeImage);
         }
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,17 +140,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_recipe_title,tv_amount_of_dishes,tv_ready_in_mins;
-        ImageView img_recipe_thumbnail;
-        CardView cardView ;
+        TextView mTvRecipeTitle;
+        TextView mTvAmountOfDishes;
+        TextView mTvReadyIn;
+        ImageView mIvRecipeImage;
+        CardView cardView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            tv_recipe_title = (TextView) itemView.findViewById(R.id.recipe_title_id) ;
-            img_recipe_thumbnail = (ImageView) itemView.findViewById(R.id.recipe_img_id);
-            tv_amount_of_dishes = (TextView) itemView.findViewById(R.id.servingTvLeft);
-            tv_ready_in_mins = (TextView) itemView.findViewById(R.id.readyInTvRight);
-            cardView = (CardView) itemView.findViewById(R.id.cardview_id);
+            mTvRecipeTitle = itemView.findViewById(R.id.recipe_title_id) ;
+            mIvRecipeImage = itemView.findViewById(R.id.recipe_img_id);
+            mTvAmountOfDishes = itemView.findViewById(R.id.servingTvLeft);
+            mTvReadyIn = itemView.findViewById(R.id.readyInTvRight);
+            cardView = itemView.findViewById(R.id.cardview_id);
         }
     }
 }

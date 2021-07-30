@@ -11,6 +11,7 @@ import com.codepath.myrecipes.ui.home.HomeFragment;
 import com.codepath.myrecipes.ui.compose.DashboardFragment;
 import com.codepath.myrecipes.ui.profile.OtherProfileFragment;
 import com.codepath.myrecipes.ui.profile.ProfileFragment;
+import com.codepath.myrecipes.ui.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.navigation_dashboard:
                         fragment = new DashboardFragment();
+                        break;
+                    case R.id.navigation_search:
+                        fragment = new SearchFragment();
                         break;
                     case R.id.navigation_profile:
                     default:

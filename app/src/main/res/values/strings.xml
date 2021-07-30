@@ -19,7 +19,7 @@
     <string name="new_account_created">New account created!</string>
     <string name="matching_passwords">passwords do not match</string>
     <string name="type_something">type something</string>
-
+    <string name="Search">Search</string>
 
 
 </resources>
