@@ -84,6 +84,8 @@ public class SearchFragment extends Fragment implements SearchRecyclerViewAdapte
                 }
             }
         });
+
+        displayFollowing();
     }
 
     private void searchUser(String search) {
@@ -98,6 +100,41 @@ public class SearchFragment extends Fragment implements SearchRecyclerViewAdapte
                 for(ParseUser user : users) {
                     Log.d("User List: ", (user.getUsername()));
                     mSearchUser.add(user);
+                }
+
+                mProgressBar.setVisibility(View.GONE);
+                if (mSearchUser.isEmpty()) {
+                    mRecyclerView.setAlpha(0);
+                    mTvEmpty.setVisibility(View.VISIBLE);
+                }
+                else {
+                    mTvEmpty.setVisibility(View.GONE);
+                    SearchRecyclerViewAdapter myAdapter = new SearchRecyclerViewAdapter(getApplicationContext(), mSearchUser, this);
+                    mRecyclerView.setAdapter(myAdapter);
+                    mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                    mRecyclerView.setAlpha(1);
+                }
+            } else {
+                // Something went wrong.
+                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void displayFollowing () {
+        mSearchUser = new ArrayList<>();
+        Log.d(TAG, "searchUser");
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.findInBackground((users, e) -> {
+            if (e == null) {
+                Log.d(TAG, "searchUser: successful query");
+                // query was successful
+                for(ParseUser user : users) {
+                    Log.d("User List: ", (user.getUsername()));
+                    if (!ParseUser.getCurrentUser().getUsername().equals(user.getUsername())) {
+                        mSearchUser.add(user);
+                    }
                 }
 
                 mProgressBar.setVisibility(View.GONE);

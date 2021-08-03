@@ -67,7 +67,7 @@ public class GroceryListFragment extends Fragment {
 
                 for (WeeklyMenu dayOfWeek : days) {
                     Log.i(TAG, "day: " + dayOfWeek.getDay());
-                    if (dayOfWeek.getRecipe() != null) {
+                    if (dayOfWeek.getRecipeItem() != null) {
                         ParseQuery<WeeklyMenu> query2 = ParseQuery.getQuery(WeeklyMenu.class);
                         query2.include(WeeklyMenu.KEY_RECIPE);
                         query2.getInBackground(dayOfWeek.getObjectId(), (object, e2) -> {
@@ -75,7 +75,7 @@ public class GroceryListFragment extends Fragment {
                                 Log.e(TAG, "bind: issue with query", e2);
                             } else {
                                 Log.d(TAG, "done: dayOfWeek = " + dayOfWeek);
-                                Post post = object.getRecipe();
+                                Post post = object.getRecipeItem();
                                 Log.d(TAG, "done: post name = " + post.getDescription());
 
                                 ArrayList<String> ingredients = (ArrayList<String>) post.getIngredients();

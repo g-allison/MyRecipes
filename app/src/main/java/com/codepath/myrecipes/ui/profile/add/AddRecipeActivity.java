@@ -24,7 +24,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.codepath.myrecipes.R;
-import com.codepath.myrecipes.models.Recipe;
+import com.codepath.myrecipes.models.RecipeItem;
+import com.codepath.myrecipes.models.WeeklyMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,14 +41,16 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
 
     private TextView mDayName;
 
-    private List<Recipe> mRecipe = new ArrayList<>();
-    private List<Recipe> mSearchRecipe;
+    private List<RecipeItem> mRecipeItem = new ArrayList<>();
+    private List<RecipeItem> mSearchRecipeItem;
     private JSONArray mTestArr;
     private ImageButton mBtnSearch;
     private TextView mTvSearch;
     private TextView mTvEmpty;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
+
+    private WeeklyMenu mDayOfWeek;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,8 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
 //        mDayName = findViewById(R.id.tvDayName);
 //        WeeklyMenu day = getIntent().getParcelableExtra("recipe card");
 //        mDayName.setText(day.getDay());
+//
+        mDayOfWeek = getIntent().getParcelableExtra("recipe card");
 
         mTvEmpty = findViewById(R.id.empty_view2);
         mProgressBar = findViewById(R.id.progressbar2);
@@ -89,7 +94,7 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void searchRecipe(String search) {
-        mSearchRecipe = new ArrayList<>();
+        mSearchRecipeItem = new ArrayList<>();
         final String URL = "https://api.spoonacular.com/recipes/search?query=" + search + "&number=30&instructionsRequired=true&apiKey=f839acb471114d05a8094ee6d32f7e57";
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -105,16 +110,16 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
                             for (int i = 0; i < mTestArr.length(); i++) {
                                 JSONObject jsonObject1;
                                 jsonObject1 = mTestArr.getJSONObject(i);
-                                mSearchRecipe.add(new Recipe(jsonObject1.optString("id"),jsonObject1.optString("title"), "https://spoonacular.com/recipeImages/" + jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
+                                mSearchRecipeItem.add(new RecipeItem(jsonObject1.optString("id"),jsonObject1.optString("title"), "https://spoonacular.com/recipeImages/" + jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
                             }
                             mProgressBar.setVisibility(View.GONE);
-                            if (mSearchRecipe.isEmpty()) {
+                            if (mSearchRecipeItem.isEmpty()) {
                                 mRecyclerView.setAlpha(0);
                                 mTvEmpty.setVisibility(View.VISIBLE);
                             }
                             else {
                                 mTvEmpty.setVisibility(View.GONE);
-                                AddRecyclerViewAdapter myAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mSearchRecipe);
+                                AddRecyclerViewAdapter myAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mSearchRecipeItem, mDayOfWeek);
                                 mRecyclerView.setAdapter(myAdapter);
                                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                                 mRecyclerView.setAlpha(1);
@@ -151,10 +156,10 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
                             for (int i = 0; i < mTestArr.length(); i++) {
                                 JSONObject jsonObject1;
                                 jsonObject1 = mTestArr.getJSONObject(i);
-                                mRecipe.add(new Recipe(jsonObject1.optString("id"),jsonObject1.optString("title"), jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
+                                mRecipeItem.add(new RecipeItem(jsonObject1.optString("id"),jsonObject1.optString("title"), jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
                             }
                             mProgressBar.setVisibility(View.GONE);
-                            AddRecyclerViewAdapter myAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipe);
+                            AddRecyclerViewAdapter myAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipeItem, mDayOfWeek);
                             mRecyclerView.setAdapter(myAdapter);
                             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 

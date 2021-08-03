@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String PARAM_INTENT_KEY = "main_activity_params";
 
-    final FragmentManager mFragmentManager = getSupportFragmentManager();
+    public final FragmentManager mFragmentManager = getSupportFragmentManager();
     private BottomNavigationView mBottomNavigationView;
 
 
@@ -97,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
     public void personalProfileTransition() {
         mFragmentManager.beginTransaction().replace(R.id.flContainer, new ProfileFragment()).commit();
         mBottomNavigationView.setSelectedItemId(R.id.navigation_profile);
+    }
+
+    public void profileRecipeAddedTransition() {
+
     }
 
 }

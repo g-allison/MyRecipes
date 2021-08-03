@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
+import com.codepath.myrecipes.models.Recipes;
 import com.codepath.myrecipes.models.WeeklyMenu;
 import com.codepath.myrecipes.ui.postActivity.PostActivity;
 import com.codepath.myrecipes.ui.profile.add.AddRecipeActivity;
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import org.parceler.Parcels;
@@ -84,20 +86,25 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                     if (e != null) {
                         Log.e(TAG, "bind: issue with query", e);
                     } else {
-                        Post post = object.getRecipe();
-                        Log.d(TAG, "bind: " + post);
+                        Recipes recipes = object.getRecipe();
+                        try {
+                            recipes.fetchIfNeeded();
+                        } catch (ParseException parseException) {
+                            parseException.printStackTrace();
+                        }
+                        Log.d(TAG, "bind: " + recipes);
                         mIvImage.setVisibility(View.VISIBLE);
                         mIvDeleteIcon.setVisibility(View.VISIBLE);
                         mIvAddIcon.setVisibility(View.GONE);
                         Glide.with(mContext)
-                                .load(post.getImage().getUrl())
+                                .load(recipes.getImageUrl())
                                 .into(mIvImage);
                         mIvImage.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(mContext, PostActivity.class);
-                                intent.putExtra("post", Parcels.wrap(post));
-                                mContext.startActivity(intent);
+//                                Intent intent = new Intent(mContext, PostActivity.class);
+//                                intent.putExtra("post", Parcels.wrap(post));
+//                                mContext.startActivity(intent);
                             }
                         });
                     }
@@ -127,15 +134,18 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(mContext, "deleting...", Toast.LENGTH_SHORT).show();
-                    dayOfWeek.getRecipe().deleteInBackground(e1 -> {
-                        if (e1 == null) {
-                            Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
-                        }else{
-                            //Something went wrong while deleting the Object
-                            Toast.makeText(mContext, "Error: "+ e1.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    dayOfWeek.getRecipe().setObjectId("");
+//                    dayOfWeek.getRecipe().deleteInBackground(e1 -> {
+//                        if (e1 == null) {
+//                            Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            //Something went wrong while deleting the Object
+//                            Toast.makeText(mContext, "Error: "+ e1.getMessage(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                    dayOfWeek.getRecipe().setObjectId("");
+                    mIvImage.setVisibility(View.GONE);
+                    mIvAddIcon.setVisibility(View.VISIBLE);
+                    mIvDeleteIcon.setVisibility(View.GONE);
                 }
             });
         }

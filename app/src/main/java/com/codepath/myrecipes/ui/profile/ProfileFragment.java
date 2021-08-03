@@ -43,6 +43,8 @@ public class ProfileFragment extends Fragment {
     private ImageView mIvProfilePicture;
     private ImageView mIvSettings;
     private TextView mTvUsername;
+    private TextView mTvFollowerCount;
+    private TextView mTvFollowingCount;
     private Button mBtnViewProfile;
     private View view;
 

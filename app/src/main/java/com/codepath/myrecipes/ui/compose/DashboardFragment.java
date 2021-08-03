@@ -27,9 +27,11 @@ import com.codepath.myrecipes.ui.openingScreen.MainActivity;
 import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +55,7 @@ public class DashboardFragment extends Fragment {
     private Button mBtnPost;
 
     private View view;
-//    private ParseFile file;
+    private ParseFile file;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -74,6 +76,8 @@ public class DashboardFragment extends Fragment {
         mIvImage = view.findViewById(R.id.ivImage);
         mBtnPost = view.findViewById(R.id.btnPost);
         mBtnAddImage = view.findViewById(R.id.btnAdd);
+
+        file = ParseUser.getCurrentUser().getParseFile("profilePicture");
 
         mIvImage.setVisibility(View.GONE);
 
@@ -108,7 +112,6 @@ public class DashboardFragment extends Fragment {
                 mRvIngredients.scrollToPosition(mIngredientsList.size() - 1);
             }
         };
-
 
         mRvIngredients = view.findViewById(R.id.rvIngredients);
         mIngredientsAdapter = new IngredientsAdapter(mIngredientsList, onLongClickListener1);
@@ -190,6 +193,8 @@ public class DashboardFragment extends Fragment {
                                 .into(mIvImage);
                         mIvImage.setVisibility(View.VISIBLE);
 
+                        file = conversionBitmapParseFile(bitmap);
+
                     } catch (IOException e) {
                         Log.i("TAG", "Some exception " + e);
                     }
@@ -198,12 +203,21 @@ public class DashboardFragment extends Fragment {
         }
     }
 
+    public ParseFile conversionBitmapParseFile(Bitmap imageBitmap) {
+        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+        byte[] imageByte = byteArrayOutputStream.toByteArray();
+        return new ParseFile("image_file.png", imageByte);
+    }
+
+
     private void savePost(String recipeName, ParseUser currentUser,
                           List<String> mStepsList, List<String> mIngredientsList) {
         Post post = new Post();
         post.setDescription(recipeName);
         post.setSteps(mStepsList);
         post.setIngredients(mIngredientsList);
+        post.setImage(file);
 
         post.setUser(currentUser);
         post.saveInBackground(new SaveCallback() {

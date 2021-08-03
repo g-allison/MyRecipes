@@ -8,9 +8,62 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true">
+
+        <ImageButton
+            android:id="@+id/home_search_btn"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="42dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_search"
+            android:contentDescription="search button" />
+
+
+        <EditText
+            android:id="@+id/home_search_et"
+            android:layout_width="217dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:autofillHints=""
+            android:backgroundTint="#00FFFFFF"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:hint="search by ingredients"
+            android:inputType="textAutoComplete"
+            android:imeOptions="actionSearch"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+
+    </androidx.cardview.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/progressbar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/empty_view2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="no results found" />
+
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
+        android:layout_below="@+id/cvSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

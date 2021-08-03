@@ -2,7 +2,7 @@ package com.codepath.myrecipes.models;
 
 import androidx.annotation.NonNull;
 
-public class Recipe {
+public class RecipeItem {
 
     private String mId;
     private String mTitle;
@@ -10,7 +10,7 @@ public class Recipe {
     private int mAmountOfDishes;
     private int mReadyInMins;
 
-    public Recipe(String id, String title, String thumbnail, int amountOfDishes, int readyInMins) {
+    public RecipeItem(String id, String title, String thumbnail, int amountOfDishes, int readyInMins) {
         this.mId = id;
         mTitle = title;
         mThumbnailUrl = thumbnail;

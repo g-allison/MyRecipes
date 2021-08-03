@@ -2,8 +2,6 @@ package com.codepath.myrecipes.models;
 
 import android.app.Application;
 
-import com.codepath.myrecipes.models.Post;
-import com.codepath.myrecipes.models.WeeklyMenu;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -16,6 +14,7 @@ public class ParseApplication extends Application {
         // Register your parse models
         ParseObject.registerSubclass(Post.class);
         ParseObject.registerSubclass(WeeklyMenu.class);
+        ParseObject.registerSubclass(Recipes.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("GjxGurxacNwoJdIycRWSDUepjxSWskbOXnA5dNEu")

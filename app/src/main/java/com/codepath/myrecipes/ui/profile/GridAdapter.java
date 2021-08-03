@@ -73,6 +73,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         public void bind(Post post) {
             // Binding the post data to the view elements
             ParseFile image = post.getImage();
+
             Glide.with(mContext)
                     .load(image.getUrl())
                     .centerCrop()
