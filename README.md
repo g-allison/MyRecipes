@@ -40,8 +40,19 @@
  - [X] User can pick recipes from the app using recipe API
    - [X] Connect to recipe API
    - [X] Add search for recipe
-   - [ ] Add recipe to WeeklyMenu
- - [ ] People can follow others (auto approve)
+   - [X] Add recipe to WeeklyMenu
+
+### Week 3:
+ - [X] User can search for other accounts
+ - [X] User can follow/unfollow accounts
+ - [X] User can view others profile
+
+### Week 4:
+ - [X] Feed is filtered based on who the user is following
+ - [X] User can search by ingredient on feed
+ - [ ] Implement UI Library
+ - [ ] Implement double tap to like + animation (?)
+ - [ ] Add suggested posts based on likes
 
 
 ## 3. Screen Archetypes
