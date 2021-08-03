@@ -12,8 +12,8 @@
  - [X] User is able to generate a weekly menu
  - [X] User is able to generate a weekly shopping list
  - [X] Have a main feed where people's recipes are shared in chronological order
-     - [ ] filter based on ingredients
- - [ ] People can follow others (auto approve)
+     - [X] filter based on ingredients
+ - [X] People can follow others (auto approve)
  - [ ] Double tap to like
 
 **Optional Nice-to-have Stories**
