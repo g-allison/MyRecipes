@@ -12,6 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +26,7 @@ import com.codepath.myrecipes.models.WeeklyMenu;
 import com.codepath.myrecipes.ui.openingScreen.MainActivity;
 import com.codepath.myrecipes.ui.postActivity.PostActivity;
 import com.codepath.myrecipes.ui.profile.add.AddRecipeActivity;
+import com.google.android.material.tabs.TabLayout;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -145,23 +149,33 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(mContext, "deleting...", Toast.LENGTH_SHORT).show();
-                    dayOfWeek.getRecipe().deleteInBackground(new DeleteCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
-                            } else {
-                                //Something went wrong while deleting the Object
-                                Toast.makeText(mContext, "Error: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+//                    dayOfWeek.getRecipe().deleteInBackground(new DeleteCallback() {
+//                        @Override
+//                        public void done(ParseException e) {
+//                            if (e == null) {
+//                                Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                //Something went wrong while deleting the Object
+//                                Toast.makeText(mContext, "Error: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
+
+
 
                     dayOfWeek.setRecipeName("");
                     dayOfWeek.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
+                            AppCompatActivity activity = (AppCompatActivity) mContext;
+                            FragmentManager fm = activity.getSupportFragmentManager();
+
+
+                            FragmentTransaction ft = fm.beginTransaction();
+                            ft.replace(R.id.simpleFrameLayout, new WeeklyMenuFragment());
+                            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                            ft.commit();
                         }
                     });
                 }

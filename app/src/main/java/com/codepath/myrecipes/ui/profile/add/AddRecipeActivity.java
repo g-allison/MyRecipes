@@ -49,8 +49,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
     public static final String TAG = "AddRecipeActivity";
     public static final int COL_NUM = 2;
 
-    private TextView mDayName;
-
     private List<RecipeItem> mRecipeItem = new ArrayList<>();
     private List<RecipeItem> mSearchRecipeItem;
     private JSONArray mTestArr;
@@ -96,7 +94,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
                 if(!mTvSearch.getText().toString().equals("")) {
                     mProgressBar.setVisibility(View.VISIBLE);
                     mRecyclerView.setAlpha(0);
-//                    searchRecipe(mTvSearch.getText().toString());
+                    searchRecipe(mTvSearch.getText().toString());
                 }
                 else
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.type_something), Toast.LENGTH_LONG).show();
