@@ -17,13 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
+import com.codepath.myrecipes.models.RecipeItem;
 import com.codepath.myrecipes.models.Recipes;
 import com.codepath.myrecipes.models.WeeklyMenu;
 import com.codepath.myrecipes.ui.openingScreen.MainActivity;
 import com.codepath.myrecipes.ui.postActivity.PostActivity;
 import com.codepath.myrecipes.ui.profile.add.AddRecipeActivity;
+import com.parse.DeleteCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -81,7 +84,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         public void bind(WeeklyMenu dayOfWeek) {
             mTvWeekday.setText(dayOfWeek.getDay());
 
-            if (dayOfWeek.getRecipe() != null) {
+            String name = dayOfWeek.getRecipeName();
+
+            if (!dayOfWeek.getRecipeName().isEmpty()) {
                 ParseQuery<WeeklyMenu> query = ParseQuery.getQuery(WeeklyMenu.class);
                 query.include(WeeklyMenu.KEY_RECIPE);
                 query.getInBackground(dayOfWeek.getObjectId(), (object, e) -> {
@@ -138,6 +143,30 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(mContext, "deleting...", Toast.LENGTH_SHORT).show();
+                    dayOfWeek.getRecipe().deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
+                            } else {
+                                //Something went wrong while deleting the Object
+                                Toast.makeText(mContext, "Error: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                    dayOfWeek.setRecipeName("");
+                    dayOfWeek.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    // new profile fragment
+
+
+
 //                    dayOfWeek.getRecipe().deleteInBackground(e1 -> {
 //                        if (e1 == null) {
 //                            Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
@@ -147,9 +176,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
 //                        }
 //                    });
 //                    dayOfWeek.getRecipe().setObjectId("");
-                    mIvImage.setVisibility(View.GONE);
-                    mIvAddIcon.setVisibility(View.VISIBLE);
-                    mIvDeleteIcon.setVisibility(View.GONE);
+//                    mIvImage.setVisibility(View.GONE);
+//                    mIvAddIcon.setVisibility(View.VISIBLE);
+//                    mIvDeleteIcon.setVisibility(View.GONE);
                 }
             });
         }

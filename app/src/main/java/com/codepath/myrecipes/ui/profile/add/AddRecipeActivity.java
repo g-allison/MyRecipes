@@ -71,10 +71,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
 
-//        mDayName = findViewById(R.id.tvDayName);
-//        WeeklyMenu day = getIntent().getParcelableExtra("recipe card");
-//        mDayName.setText(day.getDay());
-//
         mDayOfWeek = getIntent().getParcelableExtra("recipe card");
         bundle = savedInstanceState;
 
@@ -85,7 +81,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
 
         getRandomRecipes();
 
-        mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipeItem, mDayOfWeek, this);
+        mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipeItem, this);
 
         mTvSearch = findViewById(R.id.home_search_et);
         mBtnSearch = findViewById(R.id.home_search_btn);
@@ -127,7 +123,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
 
     private void searchRecipe(String search) {
         mSearchRecipeItem = new ArrayList<>();
-        final String URL = "https://api.spoonacular.com/recipes/search?query=" + search + "&number=30&instructionsRequired=true&apiKey=f839acb471114d05a8094ee6d32f7e57";
+        String URL = "https://api.spoonacular.com/recipes/search?query=" + search + "&number=30&instructionsRequired=true&apiKey=f839acb471114d05a8094ee6d32f7e57";
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -142,7 +138,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
                             for (int i = 0; i < mTestArr.length(); i++) {
                                 JSONObject jsonObject1;
                                 jsonObject1 = mTestArr.getJSONObject(i);
-                                mSearchRecipeItem.add(new RecipeItem(jsonObject1.optString("id"),jsonObject1.optString("title"), "https://spoonacular.com/recipeImages/" + jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
+                                mSearchRecipeItem.add(new RecipeItem(jsonObject1.optString("id"), jsonObject1.optString("title"), "https://spoonacular.com/recipeImages/" + jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
                             }
                             mProgressBar.setVisibility(View.GONE);
                             if (mSearchRecipeItem.isEmpty()) {
@@ -151,7 +147,8 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
                             }
                             else {
                                 mTvEmpty.setVisibility(View.GONE);
-//                                 mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mSearchRecipeItem, mDayOfWeek, this);
+                                //         mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipeItem, mDayOfWeek, this);
+                                mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mSearchRecipeItem);
                                 mRecyclerView.setAdapter(mAddRecyclerViewAdapter);
                                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                                 mRecyclerView.setAlpha(1);
@@ -191,7 +188,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
                                 mRecipeItem.add(new RecipeItem(jsonObject1.optString("id"), jsonObject1.optString("title"), jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
                             }
                             mProgressBar.setVisibility(View.GONE);
-//                            mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipeItem, mDayOfWeek, this);
                             mRecyclerView.setAdapter(mAddRecyclerViewAdapter);
                             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -213,21 +209,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
         );
         requestQueue.add(jsonObjectRequest);
     }
-
-//    @Override
-//    public void onClick(View v) {
-//        try {
-//            InputMethodManager imm = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        } catch (Exception e) {
-//        }
-//        if(!mTvSearch.getText().toString().toString().equals("")) {
-//            mProgressBar.setVisibility(View.VISIBLE);
-//            mRecyclerView.setAlpha(0);
-//            searchRecipe(mTvSearch.getText().toString());
-//        }
-//        else
-//            Toast.makeText(getApplicationContext(), getResources().getString(R.string.type_something), Toast.LENGTH_LONG).show();
-//    }
 
     @Override
     public void onAddClick(RecipeItem recipeItem) {

@@ -157,6 +157,7 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
 
                 List<Object> following = ParseUser.getCurrentUser().getList("following");
                 ArrayList<String> followingNames = new ArrayList<>();
+                followingNames.add(ParseUser.getCurrentUser().getUsername());
 
                 for (Object obj : following) {
                     ParseUser user = (ParseUser) obj;

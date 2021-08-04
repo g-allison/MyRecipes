@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == ADD_RECIPE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+        if (requestCode == ADD_RECIPE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             Log.d(TAG, "onActivityResult:  AddRecipeActivity came back okayyy!");
             personalProfileTransition();
         }

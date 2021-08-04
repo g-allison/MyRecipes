@@ -35,33 +35,25 @@ public class WeeklyMenuFragment extends Fragment {
     private RecyclerView mRvDays;
     private ProfileAdapter mDaysAdapter;
     private List<WeeklyMenu> mDays;
-    private FrameLayout fragment_container;
 
     public WeeklyMenuFragment() {
         // Required empty constructor
     }
 
-//    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.fragment_weekly_menu, container, false);
-//    }
-
     @Nullable
-    @org.jetbrains.annotations.Nullable
     @Override
-    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView called");
         return inflater.inflate(R.layout.fragment_weekly_menu, container, false);
     }
 
 
     @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated is called");
 
         mRvDays = view.findViewById(R.id.rvDays);
-        fragment_container = view.findViewById(R.id.fragment_container);
 
         // creating days recyclerview
         mDays = new ArrayList<>();
