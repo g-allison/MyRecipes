@@ -84,9 +84,13 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         public void bind(WeeklyMenu dayOfWeek) {
             mTvWeekday.setText(dayOfWeek.getDay());
 
-            String name = dayOfWeek.getRecipeName();
+            Log.d(TAG, "bind: dayOfWeek " + dayOfWeek.getDay());
+            Log.d(TAG, "bind: dayOfWeekRecipe " + dayOfWeek.getRecipe());
 
             if (!dayOfWeek.getRecipeName().isEmpty()) {
+                Log.d(TAG, "bind: recipe name is " + dayOfWeek.getRecipeName());
+                Log.d(TAG, "bind: recipe is present");
+
                 ParseQuery<WeeklyMenu> query = ParseQuery.getQuery(WeeklyMenu.class);
                 query.include(WeeklyMenu.KEY_RECIPE);
                 query.getInBackground(dayOfWeek.getObjectId(), (object, e) -> {
@@ -119,10 +123,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                     }
 
                 });
-
-
             } else {
-                Log.d(TAG, "bind: null");
+                Log.d(TAG, "bind: recipe is not there :(");
                 mIvAddIcon.setVisibility(View.VISIBLE);
                 mIvImage.setVisibility(View.GONE);
                 mIvDeleteIcon.setVisibility(View.GONE);
@@ -162,23 +164,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                             Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
                         }
                     });
-
-                    // new profile fragment
-
-
-
-//                    dayOfWeek.getRecipe().deleteInBackground(e1 -> {
-//                        if (e1 == null) {
-//                            Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            //Something went wrong while deleting the Object
-//                            Toast.makeText(mContext, "Error: "+ e1.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                    dayOfWeek.getRecipe().setObjectId("");
-//                    mIvImage.setVisibility(View.GONE);
-//                    mIvAddIcon.setVisibility(View.VISIBLE);
-//                    mIvDeleteIcon.setVisibility(View.GONE);
                 }
             });
         }

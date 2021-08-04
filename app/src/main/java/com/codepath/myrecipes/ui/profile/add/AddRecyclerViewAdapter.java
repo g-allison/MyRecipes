@@ -38,9 +38,6 @@ public class AddRecyclerViewAdapter extends RecyclerView.Adapter<AddRecyclerView
         this.mOnAddListener = mAddListener;
     }
 
-    public AddRecyclerViewAdapter(Context applicationContext, List<RecipeItem> mRecipeItem, WeeklyMenu mDayOfWeek) {
-    }
-
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
@@ -50,7 +47,7 @@ public class AddRecyclerViewAdapter extends RecyclerView.Adapter<AddRecyclerView
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         RecipeItem recipeItem = mData.get(position);
         holder.bind(recipeItem);
 

@@ -12,6 +12,7 @@ import com.codepath.myrecipes.ui.home.HomeFragment;
 import com.codepath.myrecipes.ui.compose.DashboardFragment;
 import com.codepath.myrecipes.ui.profile.OtherProfileFragment;
 import com.codepath.myrecipes.ui.profile.ProfileFragment;
+import com.codepath.myrecipes.ui.profile.WeeklyMenuFragment;
 import com.codepath.myrecipes.ui.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -74,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_RECIPE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             Log.d(TAG, "onActivityResult:  AddRecipeActivity came back okayyy!");
-            personalProfileTransition();
+//            personalProfileTransition();
+            mFragmentManager.beginTransaction().replace(R.id.flContainer, new ProfileFragment()).commit();
         }
     }
 
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void personalProfileTransition() {
+        Log.d(TAG, "personalProfileTransition: happening :)");
         mFragmentManager.beginTransaction().replace(R.id.flContainer, new ProfileFragment()).commit();
         mBottomNavigationView.setSelectedItemId(R.id.navigation_profile);
     }

@@ -79,9 +79,9 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
         mRecyclerView = findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), COL_NUM));
 
-        getRandomRecipes();
-
         mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipeItem, mDayOfWeek, this);
+
+        getRandomRecipes();
 
         mTvSearch = findViewById(R.id.home_search_et);
         mBtnSearch = findViewById(R.id.home_search_btn);
@@ -91,11 +91,12 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
                 try {
                     InputMethodManager imm = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 } catch (Exception e) {
+                    Log.e(TAG, "onClick", e);
                 }
-                if(!mTvSearch.getText().toString().toString().equals("")) {
+                if(!mTvSearch.getText().toString().equals("")) {
                     mProgressBar.setVisibility(View.VISIBLE);
                     mRecyclerView.setAlpha(0);
-                    searchRecipe(mTvSearch.getText().toString());
+//                    searchRecipe(mTvSearch.getText().toString());
                 }
                 else
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.type_something), Toast.LENGTH_LONG).show();
@@ -189,8 +190,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
                             mProgressBar.setVisibility(View.GONE);
                             mRecyclerView.setAdapter(mAddRecyclerViewAdapter);
                             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -241,11 +240,13 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
                 if (e != null) {
                     Log.e(TAG, "Error while saving", e);
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.i(TAG, "weekday save was successful!");
+                    setResult(RESULT_OK);
+                    finish();
                 }
-                Log.i(TAG, "weekday save was successful!");
             }
         });
-        setResult(RESULT_OK);
-        finish();
+
     }
 }

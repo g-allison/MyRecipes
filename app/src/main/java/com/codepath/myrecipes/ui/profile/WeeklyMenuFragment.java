@@ -76,14 +76,13 @@ public class WeeklyMenuFragment extends Fragment {
                 // checks for errors
                 if (e != null) {
                     Log.e(TAG, "Issue with WeeklyMenu query", e);
-                    return;
+                } else {
+                    for (WeeklyMenu day : days) {
+                        Log.i(TAG, "day: " + day.getRecipeName());
+                    }
+                    mDays.addAll(days);
+                    mDaysAdapter.notifyDataSetChanged();
                 }
-
-                for (WeeklyMenu day : days) {
-                    Log.i(TAG, "day: " + day.getDay());
-                }
-                mDays.addAll(days);
-                mDaysAdapter.notifyDataSetChanged();
             }
         });
     }
