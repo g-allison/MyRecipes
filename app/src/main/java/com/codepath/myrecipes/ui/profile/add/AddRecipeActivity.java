@@ -1,11 +1,15 @@
 package com.codepath.myrecipes.ui.profile.add;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -25,7 +29,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.models.RecipeItem;
+import com.codepath.myrecipes.models.Recipes;
 import com.codepath.myrecipes.models.WeeklyMenu;
+import com.codepath.myrecipes.ui.openingScreen.MainActivity;
+import com.codepath.myrecipes.ui.profile.ProfileFragment;
+import com.codepath.myrecipes.ui.profile.WeeklyMenuFragment;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +44,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddRecipeActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerViewAdapter.OnAddListener {
 
     public static final String TAG = "AddRecipeActivity";
     public static final int COL_NUM = 2;
@@ -49,8 +59,12 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
     private TextView mTvEmpty;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
+    private AddRecyclerViewAdapter mAddRecyclerViewAdapter;
 
     private WeeklyMenu mDayOfWeek;
+
+    Bundle bundle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +76,7 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
 //        mDayName.setText(day.getDay());
 //
         mDayOfWeek = getIntent().getParcelableExtra("recipe card");
+        bundle = savedInstanceState;
 
         mTvEmpty = findViewById(R.id.empty_view2);
         mProgressBar = findViewById(R.id.progressbar2);
@@ -70,9 +85,26 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
 
         getRandomRecipes();
 
+        mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipeItem, mDayOfWeek, this);
+
         mTvSearch = findViewById(R.id.home_search_et);
         mBtnSearch = findViewById(R.id.home_search_btn);
-        mBtnSearch.setOnClickListener(this);
+        mBtnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    InputMethodManager imm = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                } catch (Exception e) {
+                }
+                if(!mTvSearch.getText().toString().toString().equals("")) {
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    mRecyclerView.setAlpha(0);
+                    searchRecipe(mTvSearch.getText().toString());
+                }
+                else
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.type_something), Toast.LENGTH_LONG).show();
+            }
+        });
         mTvSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -119,8 +151,8 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
                             }
                             else {
                                 mTvEmpty.setVisibility(View.GONE);
-                                AddRecyclerViewAdapter myAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mSearchRecipeItem, mDayOfWeek);
-                                mRecyclerView.setAdapter(myAdapter);
+//                                 mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mSearchRecipeItem, mDayOfWeek, this);
+                                mRecyclerView.setAdapter(mAddRecyclerViewAdapter);
                                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                                 mRecyclerView.setAlpha(1);
                             }
@@ -156,11 +188,11 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
                             for (int i = 0; i < mTestArr.length(); i++) {
                                 JSONObject jsonObject1;
                                 jsonObject1 = mTestArr.getJSONObject(i);
-                                mRecipeItem.add(new RecipeItem(jsonObject1.optString("id"),jsonObject1.optString("title"), jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
+                                mRecipeItem.add(new RecipeItem(jsonObject1.optString("id"), jsonObject1.optString("title"), jsonObject1.optString("image"), Integer.parseInt(jsonObject1.optString("servings")), Integer.parseInt(jsonObject1.optString("readyInMinutes"))));
                             }
                             mProgressBar.setVisibility(View.GONE);
-                            AddRecyclerViewAdapter myAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipeItem, mDayOfWeek);
-                            mRecyclerView.setAdapter(myAdapter);
+//                            mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipeItem, mDayOfWeek, this);
+                            mRecyclerView.setAdapter(mAddRecyclerViewAdapter);
                             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
@@ -182,19 +214,58 @@ public class AddRecipeActivity extends AppCompatActivity implements View.OnClick
         requestQueue.add(jsonObjectRequest);
     }
 
-    @Override
-    public void onClick(View v) {
-        try {
-            InputMethodManager imm = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        } catch (Exception e) {
-        }
-        if(!mTvSearch.getText().toString().toString().equals("")) {
-            mProgressBar.setVisibility(View.VISIBLE);
-            mRecyclerView.setAlpha(0);
-            searchRecipe(mTvSearch.getText().toString());
-        }
-        else
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.type_something), Toast.LENGTH_LONG).show();
-    }
+//    @Override
+//    public void onClick(View v) {
+//        try {
+//            InputMethodManager imm = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        } catch (Exception e) {
+//        }
+//        if(!mTvSearch.getText().toString().toString().equals("")) {
+//            mProgressBar.setVisibility(View.VISIBLE);
+//            mRecyclerView.setAlpha(0);
+//            searchRecipe(mTvSearch.getText().toString());
+//        }
+//        else
+//            Toast.makeText(getApplicationContext(), getResources().getString(R.string.type_something), Toast.LENGTH_LONG).show();
+//    }
 
+    @Override
+    public void onAddClick(RecipeItem recipeItem) {
+        Toast.makeText(getApplicationContext(), "saving...", Toast.LENGTH_SHORT).show();
+
+        String URL = recipeItem.getThumbnail();
+        Log.d(TAG, "onClick: " + URL);
+
+        Recipes recipes = new Recipes();
+        recipes.setRecipeName(recipeItem.getTitle());
+        recipes.setImageUrl(recipeItem.getThumbnail());
+        recipes.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving", e);
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
+                }
+                Log.i(TAG, "recipe save was successful!");
+            }
+        });
+
+        Log.d(TAG, "onClick: mDayOfWeek recipeName = " + recipeItem.getTitle());
+
+        mDayOfWeek.setRecipe(recipes);
+        mDayOfWeek.setRecipeName(recipeItem.getTitle());
+        Log.d(TAG, "onClick: mDayOfWeek recipeName = " + mDayOfWeek.getRecipeName());
+        mDayOfWeek.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving", e);
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
+                }
+                Log.i(TAG, "weekday save was successful!");
+            }
+        });
+        setResult(RESULT_OK);
+        finish();
+    }
 }

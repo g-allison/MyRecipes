@@ -12,12 +12,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.models.WeeklyMenu;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,20 +35,33 @@ public class WeeklyMenuFragment extends Fragment {
     private RecyclerView mRvDays;
     private ProfileAdapter mDaysAdapter;
     private List<WeeklyMenu> mDays;
+    private FrameLayout fragment_container;
 
     public WeeklyMenuFragment() {
         // Required empty constructor
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//    @Override
+//    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        return inflater.inflate(R.layout.fragment_weekly_menu, container, false);
+//    }
+
+    @Nullable
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView called");
         return inflater.inflate(R.layout.fragment_weekly_menu, container, false);
     }
 
+
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated is called");
 
         mRvDays = view.findViewById(R.id.rvDays);
+        fragment_container = view.findViewById(R.id.fragment_container);
 
         // creating days recyclerview
         mDays = new ArrayList<>();
@@ -57,6 +73,7 @@ public class WeeklyMenuFragment extends Fragment {
     }
 
     private void queryDays() {
+        Log.d(TAG, "queryDays: querying for days");
         ParseQuery<WeeklyMenu> query = ParseQuery.getQuery(WeeklyMenu.class);
         query.include(WeeklyMenu.KEY_DAY);
         query.setLimit(7);

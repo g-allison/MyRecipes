@@ -2,6 +2,7 @@ package com.codepath.myrecipes.ui.openingScreen;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.codepath.myrecipes.ui.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,8 +25,9 @@ import com.codepath.myrecipes.databinding.ActivityMainBinding;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static final String TAG = "MainActivity";
     public static final String PARAM_INTENT_KEY = "main_activity_params";
+    public static final int ADD_RECIPE_ACTIVITY_REQUEST_CODE = 200;
 
     public final FragmentManager mFragmentManager = getSupportFragmentManager();
     private BottomNavigationView mBottomNavigationView;
@@ -67,6 +70,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ADD_RECIPE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+            Log.d(TAG, "onActivityResult:  AddRecipeActivity came back okayyy!");
+            personalProfileTransition();
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -98,9 +110,4 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager.beginTransaction().replace(R.id.flContainer, new ProfileFragment()).commit();
         mBottomNavigationView.setSelectedItemId(R.id.navigation_profile);
     }
-
-    public void profileRecipeAddedTransition() {
-
-    }
-
 }

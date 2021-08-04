@@ -23,6 +23,7 @@ import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.ui.openingScreen.MainActivity;
 import com.codepath.myrecipes.ui.postActivity.PostActivity;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -151,14 +152,28 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
             public void done(List<Post> posts, ParseException e) {
                 // checks for errors
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
 
-                for (Post post : posts) {
-                    Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
+                List<Object> following = ParseUser.getCurrentUser().getList("following");
+                ArrayList<String> followingNames = new ArrayList<>();
+
+                for (Object obj : following) {
+                    ParseUser user = (ParseUser) obj;
+                    try {
+                        user.fetchIfNeeded();
+                    } catch (ParseException parseException) {
+                        parseException.printStackTrace();
+                    }
+                    followingNames.add(user.getUsername());
                 }
-                mAllPosts.addAll(posts);
+
+                for (Post post : posts) {
+                    if (followingNames.contains(post.getUser().getUsername())) {
+                        mAllPosts.add(post);
+                    }
+                }
+                mProgressBar.setVisibility(View.GONE);
                 mAdapter.notifyDataSetChanged();
             }
         });

@@ -1,5 +1,6 @@
 package com.codepath.myrecipes.ui.profile;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.models.Recipes;
 import com.codepath.myrecipes.models.WeeklyMenu;
+import com.codepath.myrecipes.ui.openingScreen.MainActivity;
 import com.codepath.myrecipes.ui.postActivity.PostActivity;
 import com.codepath.myrecipes.ui.profile.add.AddRecipeActivity;
 import com.parse.ParseException;
@@ -89,24 +91,26 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                         Recipes recipes = object.getRecipe();
                         try {
                             recipes.fetchIfNeeded();
-                        } catch (ParseException parseException) {
-                            parseException.printStackTrace();
-                        }
-                        Log.d(TAG, "bind: " + recipes);
-                        mIvImage.setVisibility(View.VISIBLE);
-                        mIvDeleteIcon.setVisibility(View.VISIBLE);
-                        mIvAddIcon.setVisibility(View.GONE);
-                        Glide.with(mContext)
-                                .load(recipes.getImageUrl())
-                                .into(mIvImage);
-                        mIvImage.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
+                            Log.d(TAG, "recipe is fetched");
+                            Log.d(TAG, "bind: " + recipes);
+                            mIvImage.setVisibility(View.VISIBLE);
+                            mIvDeleteIcon.setVisibility(View.VISIBLE);
+                            mIvAddIcon.setVisibility(View.GONE);
+                            Glide.with(mContext)
+                                    .load(recipes.getImageUrl())
+                                    .into(mIvImage);
+                            mIvImage.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
 //                                Intent intent = new Intent(mContext, PostActivity.class);
 //                                intent.putExtra("post", Parcels.wrap(post));
 //                                mContext.startActivity(intent);
-                            }
-                        });
+                                }
+                            });
+                        } catch (ParseException parseException) {
+                            Log.e(TAG, "error fetching recipe" + parseException.getLocalizedMessage());
+                        }
+
                     }
 
                 });
@@ -126,7 +130,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, AddRecipeActivity.class);
                     intent.putExtra("recipe card", dayOfWeek);
-                    mContext.startActivity(intent);
+                    ((Activity) mContext).startActivityForResult(intent, MainActivity.ADD_RECIPE_ACTIVITY_REQUEST_CODE);
                 }
             });
 

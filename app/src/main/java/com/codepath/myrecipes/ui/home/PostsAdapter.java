@@ -2,12 +2,16 @@ package com.codepath.myrecipes.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.gesture.Gesture;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -80,16 +84,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             mRlContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    onPostListener.onPostClick(getAdapterPosition());
                     mOnPostListener.onPostClick(post.getUser());
-
                 }
             });
 
             // bind data to the view
             mTvDescription.setText(post.getDescription());
             mTvUsername.setText(itemView.getResources().getString(R.string.ampersand) + post.getUser().getUsername());
-
+//
             mIvImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -98,6 +100,24 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                     mContext.startActivity(intent);
                 }
             });
+
+//            mIvImage.setOnTouchListener(new View.OnTouchListener() {
+//                GestureDetector gestureDetector = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener(){
+//                    @Override
+//                    public boolean onDoubleTap(MotionEvent e) {
+//                        Toast.makeText(mContext, "doubletap", Toast.LENGTH_LONG).show();
+//                        return super.onDoubleTap(e);
+//                    }
+//                });
+//
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    gestureDetector.onTouchEvent(event);
+//                    return false;
+//                }
+//
+//            });
+
 
             if (post.getImage() != null) {
                 mIvImage.setVisibility(View.VISIBLE);

@@ -18,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -79,7 +81,10 @@ public class ProfileFragment extends Fragment {
 
         // initializing tab header and titles
         tabLayout = view.findViewById(R.id.tabLayout);
-        viewPager = view.findViewById(R.id.viewPager);
+        //viewPager = view.findViewById(R.id.viewPager);
+
+        /// #####
+        //tabLayout.setupWithViewPager(viewPager); // set the TabLayout with the ViewPager.
 
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.weekly_menu_tab)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.my_recipes_tab)));
@@ -87,20 +92,73 @@ public class ProfileFragment extends Fragment {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         // creating tab pages
-        final ProfileTabAdapter tabAdapter = new ProfileTabAdapter(this.getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(tabAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        ProfileTabAdapter tabAdapter = new ProfileTabAdapter(this.getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+        // viewPager.setAdapter(tabAdapter);
+        // viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                Log.d(TAG, "onTabSelected position clicked: " + tab.getPosition());
+//                viewPager.setCurrentItem(tab.getPosition());
+
+                Fragment fragment = null;
+                switch (tab.getPosition()) {
+                    case 0:
+                        Log.d("ProfileTabAdapter", "position = 0: WeeklyMenuFrag being returned");
+                        fragment = new WeeklyMenuFragment();
+                        break;
+                    case 1:
+                        Log.d("ProfileTabAdapter", "position = 1: MyRecipesFrag being returned");
+                        fragment = new MyRecipesFragment();
+                        break;
+                    case 2:
+                        Log.d("ProfileTabAdapter", "position = 2: GroceryListFrag being returned");
+                        fragment = new GroceryListFragment();
+                        break;
+                    default:
+                        Log.e(TAG, "tab position was not valid");
+                }
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.simpleFrameLayout, fragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.commit();
+            }
+
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) { }
+            public void onTabReselected(TabLayout.Tab tab) {
+                //viewPager.setCurrentItem(tab.getPosition());
+                Log.d(TAG, "onTabReselected position clicked: " + tab.getPosition());
+//                viewPager.setCurrentItem(tab.getPosition());
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) { }
+                Fragment fragment = null;
+                switch (tab.getPosition()) {
+                    case 0:
+                        Log.d("ProfileTabAdapter", "position = 0: WeeklyMenuFrag being returned");
+                        fragment =  new WeeklyMenuFragment();
+                        break;
+                    case 1:
+                        Log.d("ProfileTabAdapter", "position = 1: MyRecipesFrag being returned");
+                        fragment = new MyRecipesFragment();
+                        break;
+                    case 2:
+                        Log.d("ProfileTabAdapter", "position = 2: GroceryListFrag being returned");
+                        fragment =  new GroceryListFragment();
+                        break;
+                    default:
+                        Log.e(TAG, "tab position was not valid");
+                }
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.simpleFrameLayout, fragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.commit();
+            }
         });
 
         mIvProfilePicture.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +178,8 @@ public class ProfileFragment extends Fragment {
             }
         });
         queryForUser();
+        //viewPager.setCurrentItem(0);
+        tabLayout.selectTab(tabLayout.getTabAt(0));
     }
 
     @Override
@@ -171,6 +231,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setUser(Bitmap bitmap) {
+//        Log.d(TAG, "setUser: doing query for user");
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.setLimit(1);
         query.findInBackground(new FindCallback<Post>() {
@@ -201,6 +262,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void queryForUser() {
+//        Log.d(TAG, "queryForUser: querying for user profile picture");
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.setLimit(1);
