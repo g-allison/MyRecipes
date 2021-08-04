@@ -23,6 +23,7 @@ public class AddRecyclerViewAdapter extends RecyclerView.Adapter<AddRecyclerView
 
     public Context mContext;
     private List<RecipeItem> mData;
+    private WeeklyMenu mDayOfWeek;
 
     OnAddListener mOnAddListener;
 
@@ -30,15 +31,14 @@ public class AddRecyclerViewAdapter extends RecyclerView.Adapter<AddRecyclerView
 
     private WeeklyMenu mWeek;
 
-    public AddRecyclerViewAdapter(Context mContext, List<RecipeItem> mData, OnAddListener mAddListener) {
+    public AddRecyclerViewAdapter(Context mContext, List<RecipeItem> mData, WeeklyMenu mDayOfWeek, OnAddListener mAddListener) {
         this.mContext = mContext;
         this.mData = mData;
+        this.mDayOfWeek = mDayOfWeek;
         this.mOnAddListener = mAddListener;
     }
 
-    public AddRecyclerViewAdapter(Context mContext, List<RecipeItem> mData) {
-        this.mContext = mContext;
-        this.mData = mData;
+    public AddRecyclerViewAdapter(Context applicationContext, List<RecipeItem> mRecipeItem, WeeklyMenu mDayOfWeek) {
     }
 
     @NotNull

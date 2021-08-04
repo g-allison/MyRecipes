@@ -81,7 +81,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
 
         getRandomRecipes();
 
-        mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipeItem, this);
+        mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipeItem, mDayOfWeek, this);
 
         mTvSearch = findViewById(R.id.home_search_et);
         mBtnSearch = findViewById(R.id.home_search_btn);
@@ -123,6 +123,7 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
 
     private void searchRecipe(String search) {
         mSearchRecipeItem = new ArrayList<>();
+        mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mSearchRecipeItem, mDayOfWeek, this);
         String URL = "https://api.spoonacular.com/recipes/search?query=" + search + "&number=30&instructionsRequired=true&apiKey=f839acb471114d05a8094ee6d32f7e57";
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -147,8 +148,6 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
                             }
                             else {
                                 mTvEmpty.setVisibility(View.GONE);
-                                //         mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mRecipeItem, mDayOfWeek, this);
-                                mAddRecyclerViewAdapter = new AddRecyclerViewAdapter(getApplicationContext(), mSearchRecipeItem);
                                 mRecyclerView.setAdapter(mAddRecyclerViewAdapter);
                                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                                 mRecyclerView.setAlpha(1);
