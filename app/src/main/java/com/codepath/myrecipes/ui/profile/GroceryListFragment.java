@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
+import com.codepath.myrecipes.models.Recipes;
 import com.codepath.myrecipes.models.WeeklyMenu;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -67,7 +68,7 @@ public class GroceryListFragment extends Fragment {
 
                 for (WeeklyMenu dayOfWeek : days) {
                     Log.i(TAG, "day: " + dayOfWeek.getDay());
-                    if (dayOfWeek.getRecipeItem() != null) {
+                    if (!dayOfWeek.getRecipeName().isEmpty()) {
                         ParseQuery<WeeklyMenu> query2 = ParseQuery.getQuery(WeeklyMenu.class);
                         query2.include(WeeklyMenu.KEY_RECIPE);
                         query2.getInBackground(dayOfWeek.getObjectId(), (object, e2) -> {
@@ -75,10 +76,17 @@ public class GroceryListFragment extends Fragment {
                                 Log.e(TAG, "bind: issue with query", e2);
                             } else {
                                 Log.d(TAG, "done: dayOfWeek = " + dayOfWeek);
-                                Post post = object.getRecipeItem();
-                                Log.d(TAG, "done: post name = " + post.getDescription());
+//                                Post post = object.getRecipeItem();
+                                Recipes recipes = object.getRecipe();
+                                try {
+                                    recipes.fetchIfNeeded();
+                                } catch (ParseException parseException) {
+                                    parseException.printStackTrace();
+                                }
+                                Log.d(TAG, "done: post name = " + recipes.getRecipeName());
 
-                                ArrayList<String> ingredients = (ArrayList<String>) post.getIngredients();
+                                ArrayList<String> ingredients = (ArrayList<String>) recipes.getIngredients();
+
                                 Log.d(TAG, "done: ingredients = " + ingredients);
 
 

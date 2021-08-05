@@ -11,6 +11,8 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -210,24 +212,68 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
     public void onAddClick(RecipeItem recipeItem) {
         Toast.makeText(getApplicationContext(), "saving...", Toast.LENGTH_SHORT).show();
 
-        String URL = recipeItem.getThumbnail();
-        Log.d(TAG, "onClick: " + URL);
+        String thumbnailURL = recipeItem.getThumbnail();
+        Log.d(TAG, "onClick: " + thumbnailURL);
 
         Recipes recipes = new Recipes();
         recipes.setRecipeName(recipeItem.getTitle());
         recipes.setImageUrl(recipeItem.getThumbnail());
-        recipes.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error while saving", e);
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
-                }
-                Log.i(TAG, "recipe save was successful!");
-            }
-        });
 
-        Log.d(TAG, "onClick: mDayOfWeek recipeName = " + recipeItem.getTitle());
+        // #####
+//        ArrayList<String> temp = new ArrayList<>();
+//        temp.add("Milk");
+//        recipes.setIngredients(temp);
+
+        String URL = " https://api.spoonacular.com/recipes/" + recipeItem.getId() + "/information?apiKey=c957b6816ba048139fbc25a67d2cff33";
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        ArrayList<String> ingredientsLst = new ArrayList<>();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                URL,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.d(TAG, "onResponse: success");
+                            JSONArray ingredientsArr = (JSONArray) response.get("extendedIngredients");
+                            Log.d(TAG, "onResponse: ingredientsArr " + ingredientsArr);
+                            for (int i = 0; i < ingredientsArr.length(); i++) {
+                                JSONObject jsonObject1 = ingredientsArr.getJSONObject(i);
+                                String ingredient = jsonObject1.getString("name");
+                                Log.d(TAG, "onResponse: ingredient " + ingredient);
+                                ingredientsLst.add(ingredient);
+                            }
+                            Log.d(TAG, "onAddClick: ingredientsLst " + ingredientsLst);
+                            recipes.setIngredients(ingredientsLst);
+                            Log.d(TAG, "onResponse: recipes " + recipes.getIngredients());
+                            recipes.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e != null) {
+                                        Log.e(TAG, "Error while saving", e);
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("the res is error:", error.toString());
+                    }
+                }
+        );
+        requestQueue.add(jsonObjectRequest);
+
+
+
 
         mDayOfWeek.setRecipe(recipes);
         mDayOfWeek.setRecipeName(recipeItem.getTitle());

@@ -27,7 +27,6 @@ public class Heart {
 
         AnimatorSet animationSet =  new AnimatorSet();
 
-
         if (heartRed.getVisibility() == View.VISIBLE) {
             Log.d(TAG, "toggleLike: toggling red heart off.");
             heartRed.setScaleX(0.1f);

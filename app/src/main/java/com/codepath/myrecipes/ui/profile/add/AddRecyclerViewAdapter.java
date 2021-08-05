@@ -50,62 +50,6 @@ public class AddRecyclerViewAdapter extends RecyclerView.Adapter<AddRecyclerView
     public void onBindViewHolder(ViewHolder holder, int position) {
         RecipeItem recipeItem = mData.get(position);
         holder.bind(recipeItem);
-
-//                ((MainActivity)mContext.personalProfileTransition();
-//                holder.getAc
-
-
-//                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-//                        Request.Method.GET,
-//                        URL,
-//                        null,
-//                        new Response.Listener<JSONObject>() {
-//                            @Override
-//                            public void onResponse(JSONObject response) {
-//                                try {
-////                                    String[] temp = {(String) response.get("instructions")};
-////                                    post.setSteps(temp);
-//                                    Log.d(TAG, "onResponse: instructions = " + response.get("instructions"));
-////                                    post.setIngredients(response.get("extendedIngredients"));
-//
-//
-//                                    String url = response.get("image").toString();
-//
-//                                    mDayOfWeek.setRecipeName(mData.get(position).getTitle());
-//                                    mDayOfWeek.setImage(mData.get(position).getThumbnail());
-//
-//
-//                                } catch (JSONException e) {
-//                                    Log.e(TAG, "onResponse: error", e);
-//                                    e.printStackTrace();
-//                                }
-//                                Log.d(TAG, "onClick: instructions = " + post.getSteps());
-////                                post.setUser(ParseUser.getCurrentUser());
-//                                mDayOfWeek.saveInBackground(new SaveCallback() {
-//                                    @Override
-//                                    public void done(ParseException e) {
-//                                        if (e != null) {
-//                                            Log.e(TAG, "Error while saving", e);
-//                                            Toast.makeText(v.getContext(), v.getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
-//                                        }
-//                                        Log.i(TAG, "Post save was successful!");
-//
-//                                    }
-//                                });
-//                            }
-//                        },
-//                        new Response.ErrorListener() {
-//                            @Override
-//                            public void onErrorResponse(VolleyError error) {
-//                                Log.i("the res is error:", error.toString());
-//                            }
-//                        }
-//                );
-
-//                requestQueue.add(jsonObjectRequest);
-
-
-
     }
 
     @Override
