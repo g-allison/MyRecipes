@@ -241,7 +241,8 @@ public class AddRecipeActivity extends AppCompatActivity implements AddRecyclerV
                             Log.d(TAG, "onResponse: ingredientsArr " + ingredientsArr);
                             for (int i = 0; i < ingredientsArr.length(); i++) {
                                 JSONObject jsonObject1 = ingredientsArr.getJSONObject(i);
-                                String ingredient = jsonObject1.getString("name");
+                                Log.d(TAG, "onResponse: json" + jsonObject1);
+                                String ingredient = jsonObject1.getString("original");
                                 Log.d(TAG, "onResponse: ingredient " + ingredient);
                                 ingredientsLst.add(ingredient);
                             }
