@@ -4,125 +4,130 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
-<RelativeLayout
-    android:id="@+id/relative_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".ui.openingScreen.MainActivity">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvName"
+    <RelativeLayout
+        android:id="@+id/relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
-        app:cardUseCompatPadding="true">
+        tools:context=".ui.openingScreen.MainActivity">
 
-        <EditText
-            android:id="@+id/etRecipeName"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="0dp"
-            android:ems="10"
-            android:hint="Recipe Name"
-            android:inputType="textPersonName" />
-    </androidx.cardview.widget.CardView>
-
-    <Button
-        android:id="@+id/btnAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cvName"
-        android:layout_centerHorizontal="true"
-        android:text="Add image"
-        android:textAlignment="center" />
-
-    <ImageView
-        android:id="@+id/ivImage"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_below="@+id/btnAdd"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvIngredients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivImage"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
-        app:cardUseCompatPadding="true">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            app:cardUseCompatPadding="true">
 
             <EditText
-                android:id="@+id/etIngredient"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:hint="Add ingredients"
-                android:inputType="textMultiLine" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvIngredients"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_below="@+id/etIngredient" />
-
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvSteps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cvIngredients"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
-        app:cardUseCompatPadding="true">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/etStep"
+                android:id="@+id/etRecipeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
-                android:hint="Add steps"
-                android:inputType="textMultiLine" />
+                android:ems="10"
+                android:hint="Recipe Name"
+                android:inputType="textPersonName" />
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cvName"
+            android:layout_centerHorizontal="true"
+            android:text="Add image"
+            android:textAlignment="center" />
+
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_below="@+id/btnAdd"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvSteps"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivImage"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_below="@+id/etStep" />
+                android:layout_height="wrap_content">
 
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+                <EditText
+                    android:id="@+id/etIngredient"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:hint="Add ingredients"
+                    android:inputType="textMultiLine" />
 
-    <Button
-        android:id="@+id/btnPost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="Post"
-        android:layout_below="@+id/cvSteps" />
-</RelativeLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvIngredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_below="@+id/etIngredient" />
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvSteps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cvIngredients"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etStep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:hint="Add steps"
+                    android:inputType="textMultiLine" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSteps"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_below="@+id/etStep" />
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <com.royrodriguez.transitionbutton.TransitionButton
+            android:id="@+id/transition_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/cvSteps"
+            android:text="@string/post"
+            app:defaultColor="#8508CC"
+            app:loaderColor="@android:color/white"
+            android:textColor="@android:color/white"
+            />
+
+    </RelativeLayout>
 
 </ScrollView>

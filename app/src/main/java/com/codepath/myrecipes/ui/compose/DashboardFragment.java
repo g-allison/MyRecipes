@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +33,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.royrodriguez.transitionbutton.TransitionButton;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -52,7 +56,9 @@ public class DashboardFragment extends Fragment {
     private EditText mEtIngredient;
     private ImageView mIvImage;
     private Button mBtnAddImage;
-    private Button mBtnPost;
+//    private Button mBtnPost;
+
+    private TransitionButton mTransitionButton;
 
     private View view;
     private ParseFile file;
@@ -74,8 +80,28 @@ public class DashboardFragment extends Fragment {
         mEtStep = view.findViewById(R.id.etStep);
         mEtIngredient = view.findViewById(R.id.etIngredient);
         mIvImage = view.findViewById(R.id.ivImage);
-        mBtnPost = view.findViewById(R.id.btnPost);
+//        mBtnPost = view.findViewById(R.id.btnPost);
         mBtnAddImage = view.findViewById(R.id.btnAdd);
+        mTransitionButton = view.findViewById(R.id.transition_button);
+        mTransitionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTransitionButton.startAnimation();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        String recipeName = mEtRecipeName.getText().toString();
+                        if (recipeName.isEmpty()) {
+                            Toast.makeText(getContext(), getResources().getString(R.string.empty_field), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        ParseUser currentUser = ParseUser.getCurrentUser();
+                        savePost(recipeName, currentUser, mStepsList, mIngredientsList);
+                    }
+                }, 500);
+            }
+        });
 
         file = ParseUser.getCurrentUser().getParseFile("profilePicture");
 
@@ -127,19 +153,19 @@ public class DashboardFragment extends Fragment {
         mRvSteps.addItemDecoration(new DividerItemDecoration(mRvSteps.getContext(), DividerItemDecoration.VERTICAL));
 
 
-        mBtnPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String recipeName = mEtRecipeName.getText().toString();
-                if (recipeName.isEmpty()) {
-                    Toast.makeText(getContext(), getResources().getString(R.string.empty_field), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                savePost(recipeName, currentUser, mStepsList, mIngredientsList);
-
-            }
-        });
+//        mBtnPost.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String recipeName = mEtRecipeName.getText().toString();
+//                if (recipeName.isEmpty()) {
+//                    Toast.makeText(getContext(), getResources().getString(R.string.empty_field), Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                ParseUser currentUser = ParseUser.getCurrentUser();
+//                savePost(recipeName, currentUser, mStepsList, mIngredientsList);
+//
+//            }
+//        });
 
         mEtStep.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -177,7 +203,28 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+//        progressBar = view.findViewById(R.id.progress_bar);
+//        progressText = view.findViewById(R.id.progress_text);
+//
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                // set the limitations for the numeric
+//                // text under the progress bar
+//                if (i <= 100) {
+//                    progressText.setText("" + i);
+//                    progressBar.setProgress(i);
+//                    i++;
+//                    handler.postDelayed(this, 200);
+//                } else {
+//                    handler.removeCallbacks(this);
+//                }
+//            }
+//        }, 200);
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
@@ -226,13 +273,20 @@ public class DashboardFragment extends Fragment {
                 if (e != null) {
                     Log.e(TAG, "Error while saving", e);
                     Toast.makeText(getContext(), getResources().getString(R.string.saving_error_message), Toast.LENGTH_SHORT).show();
+                    mTransitionButton.stopAnimation(TransitionButton.StopAnimationStyle.SHAKE, null);
+                } else {
+                    Log.i(TAG, "Post save was successful!");
+                    mTransitionButton.stopAnimation(TransitionButton.StopAnimationStyle.EXPAND, new TransitionButton.OnAnimationStopEndListener() {
+                        @Override
+                        public void onAnimationStopEnd() {
+                            mEtRecipeName.setText("");
+                            mStepsList.clear();
+                            mIngredientsList.clear();
+                            mIvImage.setVisibility(View.GONE);
+                            ((MainActivity) getActivity()).postTransition();
+                        }
+                    });
                 }
-                Log.i(TAG, "Post save was successful!");
-                mEtRecipeName.setText("");
-                mStepsList.clear();
-                mIngredientsList.clear();
-                mIvImage.setVisibility(View.GONE);
-                ((MainActivity) getActivity()).postTransition();
             }
         });
     }

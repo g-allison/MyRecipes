@@ -20,6 +20,7 @@
     <string name="matching_passwords">passwords do not match</string>
     <string name="type_something">type something</string>
     <string name="Search">Search</string>
+    <string name="post">Post</string>
 
 
 </resources>
