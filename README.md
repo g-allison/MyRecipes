@@ -3,7 +3,7 @@
 
 ## 1. User Stories
 
-**Required Must-have Stories**
+**App Stories**
 
  - [X] User can create an account
  - [X] User can log in
@@ -14,19 +14,7 @@
  - [X] Have a main feed where people's recipes are shared in chronological order
      - [X] filter based on ingredients
  - [X] People can follow others (auto approve)
- - [ ] Double tap to like
-
-**Optional Nice-to-have Stories**
-
- - [ ] App tracks price of ingredients and user is able to designate a max budget
- - [ ] User can scan a preexisting recipe and have the app auto fill into a recipe card
- - [ ] Approve follow requests 
- - [ ] Recipes are shareable over messenging
- - [ ] Track items in a user's pantry
-     - [ ] User can add/delete items from pantry
-     - [ ] Remind users when expiration date is approaching
-     - [ ] Be able to suggest a recipe based off of what a user has in their pantry already
- - [ ] User can scan barcodes of items to upload to pantry
+ - [X] Double tap to like
 
 ## 2. Working Schedule
 ### Week 1:
@@ -51,7 +39,7 @@
  - [X] Feed is filtered based on who the user is following
  - [X] User can search by ingredient on feed
  - [ ] Implement UI Library
- - [ ] Implement double tap to like + animation (?)
+ - [X] Implement double tap to like + animation
  - [ ] Add suggested posts based on likes
 
 
