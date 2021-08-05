@@ -3,10 +3,13 @@ package com.codepath.myrecipes.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+//import com.codepath.myrecipes.models.GestureListener;
 import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.ui.openingScreen.MainActivity;
@@ -49,6 +53,8 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
     private ImageButton mBtnSearch;
     private ProgressBar mProgressBar;
 
+
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -61,7 +67,6 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // ###
         mTvEmpty = view.findViewById(R.id.empty_view2);
         mProgressBar = view.findViewById(R.id.progressbar2);
         mTvSearch = view.findViewById(R.id.home_search_et);
@@ -111,6 +116,7 @@ public class HomeFragment extends Fragment implements PostsAdapter.OnPostListene
 
         queryPosts();
     }
+
 
     private void findIngredient(String search) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);

@@ -3,6 +3,7 @@ package com.codepath.myrecipes.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.gesture.Gesture;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.DrawableImageViewTarget;
+import com.codepath.myrecipes.models.Heart;
 import com.codepath.myrecipes.models.Post;
 import com.codepath.myrecipes.R;
 import com.codepath.myrecipes.ui.postActivity.PostActivity;
@@ -69,6 +71,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private RelativeLayout mRlContainer;
         private ImageView mIvImage;
 
+        private ImageView mHeartWhite;
+        private ImageView mHeartRed;
+        private GestureDetector mGestureDetector;
+        public Heart mHeart;
+
         OnPostListener mOnPostListener;
 
         public ViewHolder(@NonNull View itemView, OnPostListener onPostListener) {
@@ -77,11 +84,17 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             mTvDescription = itemView.findViewById(R.id.tvDescription);
             mIvImage = itemView.findViewById(R.id.ivImage);
             mRlContainer = itemView.findViewById(R.id.rlContainer);
+
+            mHeartRed = itemView.findViewById(R.id.image_heart_red);
+            mHeartWhite = itemView.findViewById(R.id.image_heart);
+            mGestureDetector = new GestureDetector(itemView.getContext(), new GestureListener());
+
             this.mOnPostListener = onPostListener;
+
         }
 
         public void bind(Post post) {
-            mRlContainer.setOnClickListener(new View.OnClickListener() {
+            mTvUsername.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mOnPostListener.onPostClick(post.getUser());
@@ -101,24 +114,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 }
             });
 
-//            mIvImage.setOnTouchListener(new View.OnTouchListener() {
-//                GestureDetector gestureDetector = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener(){
-//                    @Override
-//                    public boolean onDoubleTap(MotionEvent e) {
-//                        Toast.makeText(mContext, "doubletap", Toast.LENGTH_LONG).show();
-//                        return super.onDoubleTap(e);
-//                    }
-//                });
-//
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    gestureDetector.onTouchEvent(event);
-//                    return false;
-//                }
-//
-//            });
-
-
             if (post.getImage() != null) {
                 mIvImage.setVisibility(View.VISIBLE);
 
@@ -127,6 +122,45 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                         .into(new DrawableImageViewTarget(mIvImage, /*waitForLayout=*/ true));
             } else {
                 mIvImage.setVisibility(View.GONE);
+            }
+
+            mHeartRed.setVisibility(View.GONE);
+            mHeartWhite.setVisibility(View.VISIBLE);
+            mHeart = new Heart(mHeartWhite, mHeartRed);
+            testToggle();
+        }
+
+        private void testToggle() {
+            mHeartRed.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    Log.d("PostsAdapter", "onTouch: red heart touch detected");
+
+                    return mGestureDetector.onTouchEvent(event);
+                }
+            });
+
+            mHeartWhite.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    Log.d("PostsAdapter", "onTouch: white heart touch detected");
+                    return mGestureDetector.onTouchEvent(event);
+                }
+            });
+
+        }
+
+        public class GestureListener extends GestureDetector.SimpleOnGestureListener {
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                Log.d("TAG", "onDoubleTap: double tap detected");
+                mHeart.toggleLike();
+                return true;
             }
         }
     }
